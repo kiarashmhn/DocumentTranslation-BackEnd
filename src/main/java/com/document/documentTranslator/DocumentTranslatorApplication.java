@@ -1,4 +1,4 @@
-package main.java.com.document.documentTranslator;
+package com.document.documentTranslator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
