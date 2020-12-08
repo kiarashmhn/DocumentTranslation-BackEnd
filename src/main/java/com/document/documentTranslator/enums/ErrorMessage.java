@@ -10,6 +10,7 @@ public enum ErrorMessage {
     INVALID_PARAMETER(4, "InvalidPARAMETER", "%s به درستی وارد نشده است", "%s is invalid"),
     INVALID_DATE_FORMAT(5, "InvalidDateFormat", "فرمت تاریخ به درستی وارد نشده است", "invalid date format"),
     USER_ALREADY_EXISTS(6, "userAlreadyExists", "نام کاربری وارد شده تکراری است", "user already exists"),
+    INVALID_INPUT(4, "InvalidInput", "ورودی به درستی وارد نشده است", "invalid input"),
     ;
 
     private int code;

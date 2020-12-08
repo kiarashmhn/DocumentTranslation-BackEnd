@@ -30,8 +30,11 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public User findByUserName(String username) {
-        return this.userBasicRepository.findUserByUsername(username);
+    public User findByUserName(String username) throws DomainException {
+        User user = this.userBasicRepository.findUserByUsername(username);
+        if (Validator.isNull(user))
+            throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.INVALID_PARAMETER);
+        return user;
     }
 
     public UserDto createUser(UserDto userDto) throws DomainException {
