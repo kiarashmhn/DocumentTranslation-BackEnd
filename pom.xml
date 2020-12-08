@@ -167,7 +167,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>ir.galaxy.galaxyWebApp.GalaxyWebAppApplication</mainClass>
+                    <mainClass>com.document.documentTranslator.DocumentTranslatorApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -176,7 +176,7 @@
                         </goals>
                         <configuration>
                             <classifier>exec</classifier>
-                            <mainClass>ir.galaxy.galaxyWebApp.GalaxyWebAppApplication</mainClass>
+                            <mainClass>com.document.documentTranslator.DocumentTranslatorApplication</mainClass>
                             <layout>ZIP</layout>
                         </configuration>
                     </execution>
