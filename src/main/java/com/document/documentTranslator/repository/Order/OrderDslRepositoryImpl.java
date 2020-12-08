@@ -5,6 +5,7 @@ import com.document.documentTranslator.entity.Order;
 import com.document.documentTranslator.entity.QOrder;
 import com.document.documentTranslator.enums.OrderStatus;
 import com.document.documentTranslator.enums.OrderType;
+import com.document.documentTranslator.util.DomainUtil;
 import com.document.documentTranslator.util.Validator;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OrderDslRepositoryImpl implements OrderDslRepository {
     @Autowired
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private EntityManager entityManager;
-    
+
     @Override
     public List<Order> getAll(OrderDto dto, int begin, int length) {
         return createGetAllQuery(dto, begin, length).fetch();
@@ -44,6 +45,10 @@ public class OrderDslRepositoryImpl implements OrderDslRepository {
 
         if (Validator.notNull(dto.getType()))
             query.where(qOrder.type.eq(OrderType.lookupByName(dto.getType())));
+
+        if (Validator.notNull(dto.getDetails()))
+            query.where(qOrder.details.contains(DomainUtil.mapToTrimmedString(dto.getDetails())));
+
 
         begin = Validator.isNull(begin) ? 0 : begin;
         length = Validator.isNull(length) ? 100 : length;

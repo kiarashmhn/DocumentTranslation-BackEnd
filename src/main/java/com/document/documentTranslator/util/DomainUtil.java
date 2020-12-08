@@ -1,5 +1,6 @@
 package com.document.documentTranslator.util;
 
+import com.document.documentTranslator.dto.BaseDto;
 import com.document.documentTranslator.entity.AbstractEntity;
 import com.document.documentTranslator.enums.CommonMessages;
 import org.apache.log4j.Logger;
@@ -132,6 +133,19 @@ public class DomainUtil {
         return Arrays.stream(mapAsString.substring(1, mapAsString.length() - 1).split(", "))
                 .map(entry -> entry.split("="))
                 .collect(Collectors.toMap(entry -> entry[0], entry -> entry[1]));
+    }
+
+    public static int getBegin(BaseDto dto) {
+        return Validator.notNull(dto.getBegin()) ? dto.getBegin() : 0;
+    }
+
+    public static int getLength(BaseDto dto) {
+        return Validator.notNull(dto.getLength()) ? dto.getLength() : 10;
+    }
+
+    public static String mapToTrimmedString(Map<String, Object> map) {
+        String mapStr = DomainUtil.objectToString(map);
+        return mapStr.substring(1, mapStr.length() - 1);
     }
 
 }
