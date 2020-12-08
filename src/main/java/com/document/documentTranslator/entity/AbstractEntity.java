@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,16 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
+
+    @Column(name = "ENABLED")
+    protected Boolean enable;
+
+    protected Date creationTime;
+
+    public AbstractEntity() {
+        creationTime = new Date();
+        enable = Boolean.TRUE;
+    }
 
     public Map<String, Object> map() {
 
@@ -39,5 +50,21 @@ public abstract class AbstractEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
     }
 }
