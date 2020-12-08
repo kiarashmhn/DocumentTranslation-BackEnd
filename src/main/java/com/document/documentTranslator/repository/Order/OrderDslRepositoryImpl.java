@@ -45,9 +45,6 @@ public class OrderDslRepositoryImpl implements OrderDslRepository {
         if (Validator.notNull(dto.getType()))
             query.where(qOrder.type.eq(OrderType.lookupByName(dto.getType())));
 
-        if (Validator.notNull(dto.getDetails()))
-            query.where(qOrder.details.contains(dto.getDetails()));
-
         begin = Validator.isNull(begin) ? 0 : begin;
         length = Validator.isNull(length) ? 100 : length;
 

@@ -1,13 +1,31 @@
 package com.document.documentTranslator.dto;
 
+import com.document.documentTranslator.enums.ErrorMessage;
+import com.document.documentTranslator.enums.OrderType;
+import com.document.documentTranslator.exception.DomainException;
+import com.document.documentTranslator.util.Validator;
+
+import java.util.Map;
+
 public class OrderDto extends BaseDto {
 
     private String username;
-    private String details;
+    private Map<String, Object> details;
     private String status;
     private String type;
 
     public OrderDto() {
+    }
+
+    public void validate() throws DomainException {
+        if (Validator.isNull(this.username))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.EMPTY_PARAMETER);
+        if (Validator.isNull(this.details))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "جزئیات"), ErrorMessage.EMPTY_PARAMETER);
+        if (Validator.isNull(this.type))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نوع سفارش"), ErrorMessage.EMPTY_PARAMETER);
+        if (Validator.isNull(OrderType.lookupByName(this.type)))
+            throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نوع سفارش"), ErrorMessage.INVALID_PARAMETER);
     }
 
     public String getUsername() {
@@ -18,11 +36,11 @@ public class OrderDto extends BaseDto {
         this.username = username;
     }
 
-    public String getDetails() {
+    public Map<String, Object> getDetails() {
         return details;
     }
 
-    public void setDetails(String details) {
+    public void setDetails(Map<String, Object> details) {
         this.details = details;
     }
 
