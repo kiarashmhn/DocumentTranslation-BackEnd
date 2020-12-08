@@ -73,4 +73,16 @@ public class OrderService {
         orderRepository.save(order);
         return order;
     }
+
+    public Order unAssignOrder(OrderDto orderDto) throws DomainException {
+        if (Validator.isNull(orderDto))
+            throw new DomainException(ErrorMessage.INVALID_PARAMETER);
+        orderDto.unAssignValidate();
+        Order order = findById(orderDto.getOrderId());
+
+        order.setAdminName(null);
+        order.setStatus(OrderStatus.PENDING);
+        orderRepository.save(order);
+        return order;
+    }
 }

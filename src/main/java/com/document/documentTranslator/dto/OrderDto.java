@@ -37,6 +37,11 @@ public class OrderDto extends BaseDto {
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام مترجم"), ErrorMessage.EMPTY_PARAMETER);
     }
 
+    public void unAssignValidate() throws DomainException {
+        if (Validator.isNull(this.orderId))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "شناسه سفارش"), ErrorMessage.EMPTY_PARAMETER);
+    }
+
     public String getUsername() {
         return username;
     }

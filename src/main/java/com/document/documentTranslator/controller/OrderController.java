@@ -44,4 +44,11 @@ public class OrderController {
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.assignOrderToAdmin(dto),
                 true, null));
     }
+
+    @PostMapping("/unAssign")
+    public ResponseEntity<Response> unAssign(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.unAssignOrder(dto),
+                true, null));
+    }
 }
