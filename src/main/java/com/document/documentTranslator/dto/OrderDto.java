@@ -10,6 +10,7 @@ import java.util.Map;
 public class OrderDto extends BaseDto {
 
     private String username;
+    private String adminName;
     private Map<String, Object> details;
     private String status;
     private String type;
@@ -58,5 +59,13 @@ public class OrderDto extends BaseDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 }

@@ -15,6 +15,7 @@ public class Order extends AbstractEntity {
 
     private String username;
     private String details;
+    private String adminName;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -57,5 +58,13 @@ public class Order extends AbstractEntity {
 
     public void setType(OrderType type) {
         this.type = type;
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
     }
 }
