@@ -43,7 +43,7 @@ public class ExceptionHandlingController {
 		response.setSuccess(false);
 		response.setMessage(ExceptionMessages.EXCEPTION_MESSAGE.getPersianMessage());
 
-		logger.error(e.getMessage());
+		logger.error("", e);
 
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 	}
@@ -57,7 +57,7 @@ public class ExceptionHandlingController {
 		response.setSuccess(false);
 		response.setMessage(ExceptionMessages.DATA_INTEGRITY_VIOLATION_EXCEPTION.getPersianMessage());
 
-		logger.error(e.getMessage());
+		logger.error("", e);
 
 		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(response);
 	}

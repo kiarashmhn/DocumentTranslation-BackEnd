@@ -24,10 +24,17 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
     public ResponseEntity<Response> create(@RequestBody OrderDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.createOrder(dto),
+                true, null));
+    }
+
+    @PostMapping("/gets")
+    public ResponseEntity<Response> gets(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.getOrders(dto),
                 true, null));
     }
 }
