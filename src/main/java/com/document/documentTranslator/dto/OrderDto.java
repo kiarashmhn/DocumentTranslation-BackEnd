@@ -14,6 +14,7 @@ public class OrderDto extends BaseDto {
     private Map<String, Object> details;
     private String status;
     private String type;
+    private Long orderId;
 
     public OrderDto() {
     }
@@ -27,6 +28,13 @@ public class OrderDto extends BaseDto {
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نوع سفارش"), ErrorMessage.EMPTY_PARAMETER);
         if (Validator.isNull(OrderType.lookupByName(this.type)))
             throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نوع سفارش"), ErrorMessage.INVALID_PARAMETER);
+    }
+
+    public void assignValidate() throws DomainException {
+        if (Validator.isNull(this.orderId))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "شناسه سفارش"), ErrorMessage.EMPTY_PARAMETER);
+        if (Validator.isNull(this.adminName))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام مترجم"), ErrorMessage.EMPTY_PARAMETER);
     }
 
     public String getUsername() {
@@ -67,5 +75,13 @@ public class OrderDto extends BaseDto {
 
     public void setAdminName(String adminName) {
         this.adminName = adminName;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

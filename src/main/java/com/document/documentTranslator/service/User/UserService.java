@@ -37,6 +37,13 @@ public class UserService {
         return user;
     }
 
+    public User validateAdminByName(String username) throws DomainException {
+        User user = findByUserName(username);
+        if (!user.getLevel().equals(1L))
+            throw new DomainException(ErrorMessage.NOT_ADMIN);
+        return user;
+    }
+
     public UserDto createUser(UserDto userDto) throws DomainException {
 
         userDto.validate();
