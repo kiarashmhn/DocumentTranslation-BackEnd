@@ -13,6 +13,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     private String username;
     private String password;
+    private String email;
     private Long level;
 
     public User() {
@@ -65,5 +66,13 @@ public class User extends AbstractEntity implements UserDetails {
 
     public void setLevel(Long level) {
         this.level = level;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

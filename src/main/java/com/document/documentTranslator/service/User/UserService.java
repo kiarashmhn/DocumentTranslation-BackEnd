@@ -47,7 +47,7 @@ public class UserService {
     public UserDto createUser(UserDto userDto) throws DomainException {
 
         userDto.validate();
-        User oldUser = findByUserName(userDto.getUsername());
+        User oldUser = this.userBasicRepository.findUserByUsername(userDto.getUsername());
         if (Validator.notNull(oldUser))
             throw new DomainException(ErrorMessage.USER_ALREADY_EXISTS);
 
@@ -55,9 +55,10 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setLevel(0L);
+        user.setEmail(userDto.getEmail());
 
         this.userBasicRepository.save(user);
-        UserDto dto = new UserDto(userDto.getUsername(), userDto.getPassword());
+        UserDto dto = new UserDto(userDto.getUsername(), userDto.getPassword(), userDto.getEmail(), user.getLevel());
         dto.setToken(getJWTToken(userDto.getUsername()));
         return dto;
     }

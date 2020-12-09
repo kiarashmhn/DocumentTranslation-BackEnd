@@ -10,14 +10,18 @@ public class UserDto implements Serializable {
 
     private String username;
     private String password;
+    private String email;
+    private Long level;
     private String token;
 
     public UserDto() {
     }
 
-    public UserDto(String username, String password) {
+    public UserDto(String username, String password, String email, Long level) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.level = level;
     }
 
     public String getUsername() {
@@ -42,6 +46,22 @@ public class UserDto implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getLevel() {
+        return level;
+    }
+
+    public void setLevel(Long level) {
+        this.level = level;
     }
 
     public void validate() throws DomainException {
