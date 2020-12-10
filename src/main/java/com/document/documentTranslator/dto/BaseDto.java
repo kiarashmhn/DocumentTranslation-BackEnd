@@ -1,24 +1,14 @@
 package com.document.documentTranslator.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 
 public class BaseDto implements Serializable {
 
-    public BaseDto(){
-        this.begin = 0;
-        this.length = 10;
-    }
-
     private Long id;
 
-    @JsonIgnore
-    private int begin;
-
-    @JsonIgnore
-    private int length;
+    private int begin = 0;
+    private int length = 10;
 
     public Long getId() {
         return id;

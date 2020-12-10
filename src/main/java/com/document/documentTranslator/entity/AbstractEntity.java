@@ -40,6 +40,8 @@ public abstract class AbstractEntity implements Serializable {
         Map<String, Object> map = new HashMap<>();
         if (getId() != null) {
             map.put(CommonMessages.ID.getName(), id.toString());
+            map.put("enable", enable);
+            map.put("creationTime", creationTime.toString());
         }
         return map;
     }

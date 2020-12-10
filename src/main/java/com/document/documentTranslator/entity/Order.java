@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "orders")
@@ -26,6 +28,18 @@ public class Order extends AbstractEntity {
     private OrderType type;
 
     public Order() {
+    }
+
+    @Override
+    public Map<String, Object> map() {
+        Map<String, Object> map = super.map();
+        map.put("username", this.username);
+        map.put("details", this.details);
+        map.put("adminName", this.adminName);
+        map.put("status", this.status.getPersianName());
+        map.put("type", this.type.getPersianName());
+
+        return map;
     }
 
     public String getUsername() {

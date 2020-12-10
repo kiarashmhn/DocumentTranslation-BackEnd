@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -54,11 +55,11 @@ public class OrderService {
         return orderOptional.get();
     }
 
-    public List<Order> getOrders(OrderDto orderDto) throws DomainException {
+    public List<Map<String, Object>> getOrders(OrderDto orderDto) throws DomainException {
 
         if (Validator.isNull(orderDto))
             throw new DomainException(ErrorMessage.INVALID_PARAMETER);
-        return orderRepository.getAll(orderDto, DomainUtil.getBegin(orderDto), DomainUtil.getLength(orderDto));
+        return DomainUtil.toMapList(orderRepository.getAll(orderDto, DomainUtil.getBegin(orderDto), DomainUtil.getLength(orderDto)), DomainUtil.getBegin(orderDto));
     }
 
     public Order assignOrderToAdmin(OrderDto orderDto) throws DomainException {

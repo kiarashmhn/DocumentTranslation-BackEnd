@@ -14,7 +14,7 @@ public enum OrderStatus {
 	IN_PROGRESS(2, "inProgress", "درحال انجام"),
 	COMPLETED(3, "completed", "انجام شده"),
 	CANCELLED(4, "cancelled", "لغو شده"),
-	PENDING(7, "pending", "در انتظار"),
+	PENDING(7, "pending", "در انتظار پذیرش"),
 	;
 
 	private int id;
