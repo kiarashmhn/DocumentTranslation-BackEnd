@@ -71,6 +71,8 @@ public class UserService {
         if (!bCryptPasswordEncoder.matches(userDto.getPassword(), user.getPassword()))
             throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری یا رمز عبور"), ErrorMessage.INVALID_PARAMETER);
 
+        userDto.setLevel(user.getLevel());
+        userDto.setEmail(user.getEmail());
         userDto.setToken(getJWTToken(userDto.getUsername()));
         return userDto;
 
