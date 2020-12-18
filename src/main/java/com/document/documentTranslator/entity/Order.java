@@ -2,13 +2,14 @@ package com.document.documentTranslator.entity;
 
 import com.document.documentTranslator.enums.OrderStatus;
 import com.document.documentTranslator.enums.OrderType;
+import com.document.documentTranslator.util.DomainUtil;
+import com.document.documentTranslator.util.Validator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
-import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -34,9 +35,9 @@ public class Order extends AbstractEntity {
     public Map<String, Object> map() {
         Map<String, Object> map = super.map();
         map.put("username", this.username);
-        map.put("details", this.details);
+        map.put("details", DomainUtil.stringToMap(this.details));
         map.put("adminName", this.adminName);
-        map.put("status", this.status.getPersianName());
+        map.put("status", Validator.notNull(this.status) ? this.status.getPersianName() : null);
         map.put("type", this.type.getPersianName());
 
         return map;

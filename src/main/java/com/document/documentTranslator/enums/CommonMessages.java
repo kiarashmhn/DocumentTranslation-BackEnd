@@ -1,7 +1,7 @@
 package com.document.documentTranslator.enums;
 
 public enum CommonMessages {
-    ID(1, "Id", "شناسه", "id"),
+    ID(1, "id", "شناسه", "id"),
     ROW_ID(2, "rowId", "شماره ردیف", "row id"),
     BEGIN(3, "begin", "شروع بازه", ""),
     LENGTH(4, "length", "طول بازه", ""),

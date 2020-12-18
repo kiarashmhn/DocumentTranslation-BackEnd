@@ -7,9 +7,9 @@ import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DomainUtil {
 
@@ -130,9 +130,20 @@ public class DomainUtil {
     }
 
     public static Map<String, Object> stringToMap(String mapAsString) {
-        return Arrays.stream(mapAsString.substring(1, mapAsString.length() - 1).split(", "))
-                .map(entry -> entry.split("="))
-                .collect(Collectors.toMap(entry -> entry[0], entry -> entry[1]));
+        String[] trimmed = mapAsString.substring(1, mapAsString.length() - 1).split(", ");
+        Map<String, Object> result = new HashMap<>();
+        for (String str: trimmed)
+        {
+            List<String> split = Arrays.asList(str.split("="));
+            if (split.size() > 1) {
+                List<Object> objects = (List<Object>) DomainUtil.objectToList(split.get(1));
+                if (Validator.listNotNull(objects))
+                    result.put(split.get(0), objects);
+                result.put(split.get(0), split.get(1));
+            }
+            else result.put(split.get(0), "");
+        }
+        return result;
     }
 
     public static int getBegin(BaseDto dto) {

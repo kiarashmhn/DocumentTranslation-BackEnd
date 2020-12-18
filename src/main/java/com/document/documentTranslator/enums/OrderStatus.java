@@ -9,12 +9,13 @@ import java.util.Map;
 
 public enum OrderStatus {
 
-	ACTIVE(0, "active", "فعال"),
-	INACTIVE(1, "inactive", "غیر فعال"),
-	IN_PROGRESS(2, "inProgress", "درحال انجام"),
-	COMPLETED(3, "completed", "انجام شده"),
-	CANCELLED(4, "cancelled", "لغو شده"),
-	PENDING(7, "pending", "در انتظار پذیرش"),
+	ACTIVE(0, "active", "فعال/Actif"),
+	INACTIVE(1, "inactive", "غیر فعال/Inactif"),
+	IN_PROGRESS(2, "inProgress", "درحال انجام/En cours"),
+	COMPLETED(3, "completed", "انجام شده/Fini"),
+	CANCELLED(4, "cancelled", "لغو شده/Annulé"),
+	PENDING(7, "pending", "در انتظار پذیرش توسط مسئول ترجمه/En attente d'acceptation"),
+	COMPLETING(8, "completing", "در حال تکمیل توسط کاربر/En attente de l'achèvement")
 	;
 
 	private int id;

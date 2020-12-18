@@ -30,7 +30,7 @@ public class OrderService {
         this.userService = userService;
     }
 
-    public Order createOrder(OrderDto orderDto) throws DomainException {
+    public Order createOrUpdate(OrderDto orderDto) throws DomainException {
 
         if (Validator.isNull(orderDto))
             throw new DomainException(ErrorMessage.INVALID_PARAMETER);
@@ -38,10 +38,21 @@ public class OrderService {
         orderDto.validate();
         this.userService.findByUserName(orderDto.getUsername());
 
-        Order order = new Order();
-        order.setUsername(orderDto.getUsername());
+        Order order;
+        if (Validator.isNull(orderDto.getId()))
+            order = new Order();
+        else order = findById(orderDto.getId());
+
+        if (Validator.notNull(orderDto.getUsername()))
+            order.setUsername(orderDto.getUsername());
+
+        if (Validator.notNull(orderDto.getType()))
         order.setType(OrderType.lookupByName(orderDto.getType()));
-        order.setStatus(OrderStatus.PENDING);
+
+        if (Validator.notNull(orderDto.getStatus()))
+            order.setStatus(OrderStatus.lookupByName(orderDto.getStatus()));
+
+        if (Validator.notNull(orderDto.getDetails()))
         order.setDetails(DomainUtil.objectToString(orderDto.getDetails()));
 
         orderRepository.save(order);
@@ -55,11 +66,21 @@ public class OrderService {
         return orderOptional.get();
     }
 
+    public Map<String, Object> getById(OrderDto orderDto) throws DomainException {
+        if (Validator.isNull(orderDto) || Validator.isNull(orderDto.getId()))
+            throw new DomainException(ErrorMessage.INVALID_PARAMETER);
+        return findById(orderDto.getId()).map();
+    }
+
     public List<Map<String, Object>> getOrders(OrderDto orderDto) throws DomainException {
 
         if (Validator.isNull(orderDto))
             throw new DomainException(ErrorMessage.INVALID_PARAMETER);
         return DomainUtil.toMapList(orderRepository.getAll(orderDto, DomainUtil.getBegin(orderDto), DomainUtil.getLength(orderDto)), DomainUtil.getBegin(orderDto));
+    }
+
+    public Long getAllCount(OrderDto orderDto) {
+        return orderRepository.getAllCount(orderDto, DomainUtil.getBegin(orderDto), DomainUtil.getLength(orderDto));
     }
 
     public Order assignOrderToAdmin(OrderDto orderDto) throws DomainException {

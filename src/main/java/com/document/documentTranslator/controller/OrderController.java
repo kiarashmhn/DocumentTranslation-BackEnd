@@ -27,7 +27,14 @@ public class OrderController {
     @PostMapping("/create")
     public ResponseEntity<Response> create(@RequestBody OrderDto dto) throws DomainException {
 
-        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.createOrder(dto),
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.createOrUpdate(dto),
+                true, null));
+    }
+
+    @PostMapping("/getById")
+    public ResponseEntity<Response> getById(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.getById(dto),
                 true, null));
     }
 
@@ -35,7 +42,7 @@ public class OrderController {
     public ResponseEntity<Response> gets(@RequestBody OrderDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.getOrders(dto),
-                true, null));
+                true, orderService.getAllCount(dto)));
     }
 
     @PostMapping("/assign")
