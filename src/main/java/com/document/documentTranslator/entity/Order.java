@@ -35,7 +35,7 @@ public class Order extends AbstractEntity {
     public Map<String, Object> map() {
         Map<String, Object> map = super.map();
         map.put("username", this.username);
-        map.put("details", DomainUtil.stringToMap(this.details));
+        map.put("details", DomainUtil.stringToJson(this.details));
         map.put("adminName", this.adminName);
         map.put("status", Validator.notNull(this.status) ? this.status.getPersianName() : null);
         map.put("type", this.type.getPersianName());

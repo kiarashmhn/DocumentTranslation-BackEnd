@@ -14,6 +14,7 @@ import com.document.documentTranslator.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -47,13 +48,13 @@ public class OrderService {
             order.setUsername(orderDto.getUsername());
 
         if (Validator.notNull(orderDto.getType()))
-        order.setType(OrderType.lookupByName(orderDto.getType()));
+            order.setType(OrderType.lookupByName(orderDto.getType()));
 
         if (Validator.notNull(orderDto.getStatus()))
             order.setStatus(OrderStatus.lookupByName(orderDto.getStatus()));
 
         if (Validator.notNull(orderDto.getDetails()))
-        order.setDetails(DomainUtil.objectToString(orderDto.getDetails()));
+            order.setDetails(DomainUtil.mapToString((HashMap<String, Object>) orderDto.getDetails()));
 
         orderRepository.save(order);
         return order;

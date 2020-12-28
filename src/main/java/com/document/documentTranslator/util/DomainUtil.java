@@ -3,6 +3,11 @@ package com.document.documentTranslator.util;
 import com.document.documentTranslator.dto.BaseDto;
 import com.document.documentTranslator.entity.AbstractEntity;
 import com.document.documentTranslator.enums.CommonMessages;
+import com.oracle.javafx.jmx.json.JSONException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -159,4 +164,38 @@ public class DomainUtil {
         return mapStr.substring(1, mapStr.length() - 1);
     }
 
+    public static Object toJSON(Object object) throws JSONException {
+        if (object instanceof HashMap) {
+            JSONObject json = new JSONObject();
+            HashMap map = (HashMap) object;
+            for (Object key : map.keySet()) {
+                json.put(key.toString(), toJSON(map.get(key)));
+            }
+            return json;
+        } else if (object instanceof Iterable) {
+            JSONArray json = new JSONArray();
+            for (Object value : ((Iterable) object)) {
+                json.add(toJSON(value));
+            }
+            return json;
+        }
+        else {
+            return object;
+        }
+    }
+
+    public static String mapToString(HashMap<String, Object> map) {
+        Object object = toJSON(map);
+        return objectToString(object);
+    }
+
+    public static JSONObject stringToJson(String s) {
+        try {
+            JSONParser parser = new JSONParser();
+            return (JSONObject) parser.parse(s);
+        }
+        catch (ParseException e) {
+            return null;
+        }
+    }
 }
