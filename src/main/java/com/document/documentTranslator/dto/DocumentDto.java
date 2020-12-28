@@ -1,5 +1,12 @@
 package com.document.documentTranslator.dto;
 
+import com.document.documentTranslator.enums.ErrorMessage;
+import com.document.documentTranslator.exception.DomainException;
+import com.document.documentTranslator.util.DomainUtil;
+import com.document.documentTranslator.util.Validator;
+
+import java.util.Map;
+
 public class DocumentDto extends BaseDto {
 
     private String name;
@@ -8,6 +15,23 @@ public class DocumentDto extends BaseDto {
     private Long orderId;
     private String type;
     private String username;
+
+    public static DocumentDto fromMap(Map<String, Object> map) throws DomainException {
+        if (Validator.isNull(map))
+            throw new DomainException(ErrorMessage.INVALID_INPUT);
+
+        DocumentDto documentDto = new DocumentDto();
+        documentDto.setName(DomainUtil.objectToString(map.get("name")));
+        documentDto.setUsername(DomainUtil.objectToString(map.get("username")));
+        documentDto.setOrderId(DomainUtil.objectToLong(map.get("orderId")));
+
+        return documentDto;
+    }
+
+    public void validate() throws DomainException {
+        if (Validator.isNull(this.getOrderId()) || Validator.isNull(this.getUsername()) || Validator.isNull(this.getName()))
+            throw new DomainException(ErrorMessage.INVALID_INPUT);
+    }
 
     public DocumentDto() {
     }

@@ -3,6 +3,8 @@ package com.document.documentTranslator.util;
 import com.document.documentTranslator.dto.BaseDto;
 import com.document.documentTranslator.entity.AbstractEntity;
 import com.document.documentTranslator.enums.CommonMessages;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oracle.javafx.jmx.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import org.json.simple.parser.JSONParser;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -197,5 +200,23 @@ public class DomainUtil {
         catch (ParseException e) {
             return null;
         }
+    }
+
+    public static Map<String , Object> jsonStringtoMap(String json) {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        Map<String , Object> map = new HashMap<>();
+        if (Validator.validateRequiredString(json)){
+
+            // convert JSON string to Map
+            try{
+                map = mapper.readValue(json, new TypeReference<Map<String , Object>>() {});
+            }
+            catch (IOException e){
+                // we ignore exception and return empty map
+            }
+        }
+        return map;
     }
 }
