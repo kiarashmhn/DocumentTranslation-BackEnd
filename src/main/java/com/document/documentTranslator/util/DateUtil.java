@@ -9,7 +9,10 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+import static java.util.Calendar.MONTH;
 
 public class DateUtil {
 
@@ -59,5 +62,22 @@ public class DateUtil {
         }
 
         return null;
+    }
+
+    public static String format(Date date) {
+
+        if (date == null)
+            return null;
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        String year = String.valueOf(cal.get(Calendar.YEAR));
+        String month = String.valueOf(cal.get(MONTH) + 100 + 1).substring(1);
+        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH) + 100).substring(1);
+        String hour = String.valueOf(cal.get(Calendar.HOUR_OF_DAY) + 100).substring(1);
+        String minute = String.valueOf(cal.get(Calendar.MINUTE) + 100).substring(1);
+        String second = String.valueOf(cal.get(Calendar.SECOND) + 100).substring(1);
+        return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
     }
 }
