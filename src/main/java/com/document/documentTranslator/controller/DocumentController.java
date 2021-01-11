@@ -1,5 +1,6 @@
 package com.document.documentTranslator.controller;
 
+import com.document.documentTranslator.aspect.Authorize;
 import com.document.documentTranslator.dto.DocumentDto;
 import com.document.documentTranslator.entity.Document;
 import com.document.documentTranslator.enums.ResponseMessages;
@@ -29,6 +30,7 @@ public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/create", headers = ("content-type=multipart/*"), produces = "application/json")
     public ResponseEntity<Response> create(@FormDataParam("file") MultipartFile file, @RequestParam("data") String data) throws DomainException, IOException {
 
@@ -38,6 +40,7 @@ public class DocumentController {
                 true, null));
     }
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/gets")
     public ResponseEntity<Response> gets(@RequestBody DocumentDto dto) {
 
@@ -45,6 +48,7 @@ public class DocumentController {
                 true, null));
     }
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/get")
     public ResponseEntity<Object> get(@RequestBody DocumentDto dto) throws DomainException {
 
@@ -54,6 +58,7 @@ public class DocumentController {
                 .body(document.getData());
     }
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/delete")
     public ResponseEntity<Response> delete(@RequestBody DocumentDto dto) throws DomainException {
 

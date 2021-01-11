@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class OrderDto extends BaseDto {
 
-    private String username;
     private String adminName;
     private Map<String, Object> details;
     private String status;
@@ -20,7 +19,7 @@ public class OrderDto extends BaseDto {
     }
 
     public void validate() throws DomainException {
-        if (Validator.isNull(this.username))
+        if (Validator.isNull(this.getUsername()))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.EMPTY_PARAMETER);
         if (Validator.isNull(this.details))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "جزئیات"), ErrorMessage.EMPTY_PARAMETER);
@@ -40,14 +39,6 @@ public class OrderDto extends BaseDto {
     public void unAssignValidate() throws DomainException {
         if (Validator.isNull(this.orderId))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "شناسه سفارش"), ErrorMessage.EMPTY_PARAMETER);
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public Map<String, Object> getDetails() {

@@ -1,5 +1,6 @@
 package com.document.documentTranslator.controller;
 
+import com.document.documentTranslator.aspect.Authorize;
 import com.document.documentTranslator.dto.OrderDto;
 import com.document.documentTranslator.enums.ResponseMessages;
 import com.document.documentTranslator.exception.DomainException;
@@ -24,6 +25,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping("/create")
     public ResponseEntity<Response> create(@RequestBody OrderDto dto) throws DomainException {
 
@@ -31,6 +33,7 @@ public class OrderController {
                 true, null));
     }
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping("/getById")
     public ResponseEntity<Response> getById(@RequestBody OrderDto dto) throws DomainException {
 
@@ -38,6 +41,7 @@ public class OrderController {
                 true, null));
     }
 
+    @Authorize(type = Authorize.AAAType.USER)
     @PostMapping("/gets")
     public ResponseEntity<Response> gets(@RequestBody OrderDto dto) throws DomainException {
 
@@ -45,6 +49,7 @@ public class OrderController {
                 true, orderService.getAllCount(dto)));
     }
 
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN)
     @PostMapping("/assign")
     public ResponseEntity<Response> assign(@RequestBody OrderDto dto) throws DomainException {
 
@@ -52,6 +57,7 @@ public class OrderController {
                 true, null));
     }
 
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN)
     @PostMapping("/unAssign")
     public ResponseEntity<Response> unAssign(@RequestBody OrderDto dto) throws DomainException {
 

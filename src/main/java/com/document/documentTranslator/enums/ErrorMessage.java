@@ -12,6 +12,7 @@ public enum ErrorMessage {
     USER_ALREADY_EXISTS(6, "userAlreadyExists", "نام کاربری وارد شده تکراری است", "user already exists"),
     INVALID_INPUT(7, "InvalidInput", "ورودی به درستی وارد نشده است", "invalid input"),
     NOT_ADMIN(8, "notAdmin", "کاربر وارد شده مترجم نیست", "not admin"),
+    ACCESS_DENIED(9, "accessDenied", "دسترسی محدود", "access denied"),
     ;
 
     private int code;

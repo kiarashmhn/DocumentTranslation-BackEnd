@@ -14,7 +14,6 @@ public class DocumentDto extends BaseDto {
     private String path;
     private Long orderId;
     private String type;
-    private String username;
 
     public static DocumentDto fromMap(Map<String, Object> map) throws DomainException {
         if (Validator.isNull(map))
@@ -74,13 +73,5 @@ public class DocumentDto extends BaseDto {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

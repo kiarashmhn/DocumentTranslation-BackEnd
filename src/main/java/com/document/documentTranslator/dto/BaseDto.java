@@ -10,8 +10,18 @@ public class BaseDto implements Serializable {
     private int begin = 0;
     private int length = 10;
 
+    private String username;
+
     public Long getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setId(Long id) {

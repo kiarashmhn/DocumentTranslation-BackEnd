@@ -9,8 +9,10 @@ import com.document.documentTranslator.util.Validator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,27 @@ public class UserService {
     public UserService(UserBasicRepository userBasicRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userBasicRepository = userBasicRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    public String getCurrentUsername() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
+
+    public User getCurrentUser() throws DomainException {
+        return findByUserName(getCurrentUsername());
+    }
+
+    public Boolean isAdmin(User user) {
+        if (Validator.notNull(user.getLevel()))
+            return user.getLevel() >= 1;
+        return false;
+    }
+
+    public Boolean isSuperAdmin(User user) {
+        if (Validator.notNull(user.getLevel()))
+            return user.getLevel() >= 2;
+        return false;
     }
 
     public User findByUserName(String username) throws DomainException {
