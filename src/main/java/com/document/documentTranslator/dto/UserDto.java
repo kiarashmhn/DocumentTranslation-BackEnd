@@ -11,15 +11,17 @@ public class UserDto extends BaseDto {
     private String email;
     private Long level;
     private String token;
+    private String phone;
 
     public UserDto() {
     }
 
-    public UserDto(String username, String password, String email, Long level) {
+    public UserDto(String username, String password, String email, Long level, String phone) {
         this.setUsername(username);
         this.password = password;
         this.email = email;
         this.level = level;
+        this.phone = phone;
     }
 
     public String getPassword() {
@@ -54,12 +56,23 @@ public class UserDto extends BaseDto {
         this.level = level;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public void validate() throws DomainException {
         if (Validator.isNull(this.getUsername()))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.EMPTY_PARAMETER);
 
         if (Validator.isNull(this.password))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "رمز عبور"), ErrorMessage.EMPTY_PARAMETER);
+
+        if (Validator.isNull(this.email) && Validator.isNull(this.phone))
+            throw new DomainException(ErrorMessage.EMPTY_EMAIL_PHONE);
 
     }
 }

@@ -79,6 +79,7 @@ public class UserService {
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         user.setLevel(userDto.getLevel());
         user.setEmail(userDto.getEmail());
+        user.setPhone(userDto.getPhone());
 
         this.userBasicRepository.save(user);
         return user;
@@ -87,7 +88,7 @@ public class UserService {
     public UserDto createUser(UserDto userDto) throws DomainException {
         userDto.setLevel(0L);
         User user = create(userDto);
-        UserDto dto = new UserDto(userDto.getUsername(), userDto.getPassword(), userDto.getEmail(), user.getLevel());
+        UserDto dto = new UserDto(userDto.getUsername(), userDto.getPassword(), userDto.getEmail(), user.getLevel(), userDto.getPhone());
         dto.setToken(getJWTToken(userDto.getUsername()));
         return dto;
     }
@@ -131,6 +132,6 @@ public class UserService {
     public UserDto createAdmin(UserDto dto) throws DomainException {
         dto.setLevel(1L);
         User user = create(dto);
-        return new UserDto(dto.getUsername(), dto.getPassword(), dto.getEmail(), user.getLevel());
+        return new UserDto(dto.getUsername(), dto.getPassword(), dto.getEmail(), user.getLevel(), dto.getPhone());
     }
 }

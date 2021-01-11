@@ -13,6 +13,7 @@ public enum ErrorMessage {
     INVALID_INPUT(7, "InvalidInput", "ورودی به درستی وارد نشده است", "invalid input"),
     NOT_ADMIN(8, "notAdmin", "کاربر وارد شده مترجم نیست", "not admin"),
     ACCESS_DENIED(9, "accessDenied", "دسترسی محدود", "access denied"),
+    EMPTY_EMAIL_PHONE(10, "emptyEmailPhone", "ایمیل یا شماره تلفن را وارد کنید", "empty email phone"),
     ;
 
     private int code;

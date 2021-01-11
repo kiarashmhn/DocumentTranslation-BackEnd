@@ -15,6 +15,7 @@ public class User extends AbstractEntity implements UserDetails {
     private String password;
     private String email;
     private Long level;
+    private String phone;
 
     public User() {
     }
@@ -74,5 +75,13 @@ public class User extends AbstractEntity implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
