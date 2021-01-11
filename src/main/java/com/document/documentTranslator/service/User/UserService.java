@@ -67,7 +67,7 @@ public class UserService {
         return user;
     }
 
-    public UserDto createUser(UserDto userDto) throws DomainException {
+    public User create(UserDto userDto) throws DomainException {
 
         userDto.validate();
         User oldUser = this.userBasicRepository.findUserByUsername(userDto.getUsername());
@@ -77,10 +77,16 @@ public class UserService {
         User user = new User();
         user.setUsername(userDto.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        user.setLevel(0L);
+        user.setLevel(userDto.getLevel());
         user.setEmail(userDto.getEmail());
 
         this.userBasicRepository.save(user);
+        return user;
+    }
+
+    public UserDto createUser(UserDto userDto) throws DomainException {
+        userDto.setLevel(0L);
+        User user = create(userDto);
         UserDto dto = new UserDto(userDto.getUsername(), userDto.getPassword(), userDto.getEmail(), user.getLevel());
         dto.setToken(getJWTToken(userDto.getUsername()));
         return dto;
@@ -120,5 +126,11 @@ public class UserService {
                         secretKey.getBytes()).compact();
 
         return "Bearer " + token;
+    }
+
+    public UserDto createAdmin(UserDto dto) throws DomainException {
+        dto.setLevel(1L);
+        User user = create(dto);
+        return new UserDto(dto.getUsername(), dto.getPassword(), dto.getEmail(), user.getLevel());
     }
 }
