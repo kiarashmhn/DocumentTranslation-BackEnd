@@ -60,6 +60,16 @@ public class UserService {
         return user;
     }
 
+    public User getUser(UserDto dto) throws DomainException {
+        if (Validator.isNull(dto) || Validator.isNull(dto.getUsername()))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.EMPTY_PARAMETER);
+
+        User user = this.userBasicRepository.findUserByUsername(dto.getUsername());
+        if (Validator.isNull(user))
+            throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.INVALID_PARAMETER);
+        return user;
+    }
+
     public User validateAdminByName(String username) throws DomainException {
         User user = findByUserName(username);
         if (!user.getLevel().equals(1L))

@@ -32,4 +32,12 @@ public class AdminController {
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.createAdmin(dto),
                 true, null));
     }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/get")
+    public ResponseEntity<Response> getUser(@RequestBody UserDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.getUser(dto),
+                true, null));
+    }
 }
