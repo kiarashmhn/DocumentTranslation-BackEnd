@@ -42,6 +42,14 @@ public class AdminController {
     }
 
     @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/gets")
+    public ResponseEntity<Response> getAdmins() throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.getAdmins(),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
     @PostMapping("/update")
     public ResponseEntity<Response> updateUser(@RequestBody UserDto dto) throws DomainException {
 

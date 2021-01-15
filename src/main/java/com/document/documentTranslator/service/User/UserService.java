@@ -70,6 +70,10 @@ public class UserService {
         return user;
     }
 
+    public List<User> getAdmins() throws DomainException {
+        return userBasicRepository.findAllByLevelAndEnable(1L, Boolean.TRUE);
+    }
+
     public User updateUser(UserDto dto) throws DomainException {
 
         User user = getUser(dto);
