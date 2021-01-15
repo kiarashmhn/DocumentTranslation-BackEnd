@@ -70,6 +70,20 @@ public class UserService {
         return user;
     }
 
+    public User updateUser(UserDto dto) throws DomainException {
+
+        User user = getUser(dto);
+        if (Validator.notNull(dto.getPassword()))
+            user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
+        if (Validator.notNull(dto.getEmail()))
+            user.setEmail(dto.getEmail());
+        if (Validator.notNull(dto.getPhone()))
+            user.setPhone(dto.getPhone());
+
+        this.userBasicRepository.save(user);
+        return user;
+    }
+
     public User validateAdminByName(String username) throws DomainException {
         User user = findByUserName(username);
         if (!user.getLevel().equals(1L))
@@ -80,6 +94,7 @@ public class UserService {
     public User create(UserDto userDto) throws DomainException {
 
         userDto.validate();
+        userDto.registerValidate();
         User oldUser = this.userBasicRepository.findUserByUsername(userDto.getUsername());
         if (Validator.notNull(oldUser))
             throw new DomainException(ErrorMessage.USER_ALREADY_EXISTS);

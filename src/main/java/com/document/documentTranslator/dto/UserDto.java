@@ -71,8 +71,12 @@ public class UserDto extends BaseDto {
         if (Validator.isNull(this.password))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "رمز عبور"), ErrorMessage.EMPTY_PARAMETER);
 
+    }
+
+    public void registerValidate() throws DomainException {
+
+        this.validate();
         if (Validator.isNull(this.email) && Validator.isNull(this.phone))
             throw new DomainException(ErrorMessage.EMPTY_EMAIL_PHONE);
-
     }
 }

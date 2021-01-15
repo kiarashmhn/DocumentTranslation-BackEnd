@@ -41,7 +41,7 @@ public class OrderController {
                 true, null));
     }
 
-    @Authorize(type = Authorize.AAAType.USER)
+    @Authorize(type = Authorize.AAAType.USER, injectUserName = false)
     @PostMapping("/gets")
     public ResponseEntity<Response> gets(@RequestBody OrderDto dto) throws DomainException {
 
