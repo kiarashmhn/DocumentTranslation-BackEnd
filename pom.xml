@@ -18,7 +18,6 @@
     <properties>
         <java.version>1.8</java.version>
         <org.slf4j.version>1.7.21</org.slf4j.version>
-        <jersey.version>1.8</jersey.version>
         <jersey2.version>2.19</jersey2.version>
     </properties>
 

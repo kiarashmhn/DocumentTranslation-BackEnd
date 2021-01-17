@@ -48,7 +48,7 @@ public class OrderService {
             order.setUsername(orderDto.getUsername());
 
         if (Validator.notNull(orderDto.getType()))
-            order.setType(OrderType.lookupByName(orderDto.getType()));
+            order.setType(orderDto.getType());
 
         if (Validator.notNull(orderDto.getStatus()))
             order.setStatus(OrderStatus.lookupByName(orderDto.getStatus()));

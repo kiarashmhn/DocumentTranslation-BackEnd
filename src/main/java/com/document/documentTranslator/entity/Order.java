@@ -1,7 +1,6 @@
 package com.document.documentTranslator.entity;
 
 import com.document.documentTranslator.enums.OrderStatus;
-import com.document.documentTranslator.enums.OrderType;
 import com.document.documentTranslator.util.DomainUtil;
 import com.document.documentTranslator.util.Validator;
 
@@ -25,8 +24,7 @@ public class Order extends AbstractEntity {
     private OrderStatus status;
 
     @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private OrderType type;
+    private String type;
 
     public Order() {
     }
@@ -38,7 +36,7 @@ public class Order extends AbstractEntity {
         map.put("details", DomainUtil.stringToJson(this.details));
         map.put("adminName", this.adminName);
         map.put("status", Validator.notNull(this.status) ? this.status.getPersianName() : null);
-        map.put("type", this.type.getPersianName());
+        map.put("type", this.type);
 
         return map;
     }
@@ -67,11 +65,11 @@ public class Order extends AbstractEntity {
         this.status = status;
     }
 
-    public OrderType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(OrderType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

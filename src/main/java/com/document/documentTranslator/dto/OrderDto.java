@@ -25,8 +25,6 @@ public class OrderDto extends BaseDto {
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "جزئیات"), ErrorMessage.EMPTY_PARAMETER);
         if (Validator.isNull(this.type))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نوع سفارش"), ErrorMessage.EMPTY_PARAMETER);
-        if (Validator.isNull(OrderType.lookupByName(this.type)))
-            throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نوع سفارش"), ErrorMessage.INVALID_PARAMETER);
     }
 
     public void assignValidate() throws DomainException {
