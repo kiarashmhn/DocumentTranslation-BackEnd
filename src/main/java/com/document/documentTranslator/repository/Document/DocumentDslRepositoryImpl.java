@@ -43,7 +43,7 @@ public class DocumentDslRepositoryImpl implements DocumentDslRepository {
             query.where(qDocument.size.eq(dto.getSize()));
 
         if (Validator.notNull(dto.getType()))
-            query.where(qDocument.type.eq(dto.getName()));
+            query.where(qDocument.type.eq(dto.getType()));
 
 
         begin = Validator.isNull(begin) ? 0 : begin;
