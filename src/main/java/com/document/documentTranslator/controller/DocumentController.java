@@ -2,29 +2,32 @@ package com.document.documentTranslator.controller;
 
 import com.document.documentTranslator.aspect.Authorize;
 import com.document.documentTranslator.dto.DocumentDto;
-import com.document.documentTranslator.entity.Document;
+import com.document.documentTranslator.enums.ErrorMessage;
 import com.document.documentTranslator.enums.ResponseMessages;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.response.Response;
 import com.document.documentTranslator.service.Document.DocumentService;
 import com.document.documentTranslator.util.DomainUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/document", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DocumentController {
 
     @Autowired
@@ -32,7 +35,7 @@ public class DocumentController {
 
     @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/create", headers = ("content-type=multipart/*"), produces = "application/json")
-    public ResponseEntity<Response> create(@FormDataParam("file") MultipartFile file, @RequestParam("data") String data) throws DomainException, IOException {
+    public ResponseEntity<Response> create(@FormDataParam("file") MultipartFile file, @FormDataParam("data") String data) throws DomainException, IOException {
 
         Map<String , Object> map = DomainUtil.jsonStringtoMap(data);
 
@@ -50,12 +53,18 @@ public class DocumentController {
 
     @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/get")
-    public ResponseEntity<Object> get(@RequestBody DocumentDto dto) throws DomainException {
+    public void get(@RequestBody DocumentDto dto, HttpServletResponse response) throws DomainException {
 
-        Document document = documentService.findById(dto.getId());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getName() + "\"")
-                .body(document.getData());
+
+        try {
+            File file = documentService.getFileById(dto);
+            InputStream in = new FileInputStream(file);
+            StreamUtils.copy(in, response.getOutputStream());
+            response.flushBuffer();
+        } catch (Exception e) {
+            throw new DomainException(ErrorMessage.INTERNAL_ERROR);
+        }
+
     }
 
     @Authorize(type = Authorize.AAAType.USER)

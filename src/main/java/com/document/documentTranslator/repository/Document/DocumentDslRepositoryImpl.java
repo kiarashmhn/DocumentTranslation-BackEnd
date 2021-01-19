@@ -33,14 +33,17 @@ public class DocumentDslRepositoryImpl implements DocumentDslRepository {
         QDocument qDocument = QDocument.document;
         JPAQuery<Document> query = jpaQuery.from(qDocument).where(qDocument.enable.eq(Boolean.TRUE)).orderBy(qDocument.creationTime.desc());
 
-        if (Validator.notNull(dto.getUsername()))
-            query.where(qDocument.username.eq(dto.getUsername()));
-
         if (Validator.notNull(dto.getOrderId()))
             query.where(qDocument.orderId.eq(dto.getOrderId()));
 
         if (Validator.notNull(dto.getName()))
             query.where(qDocument.name.eq(dto.getName()));
+
+        if (Validator.notNull(dto.getSize()))
+            query.where(qDocument.size.eq(dto.getSize()));
+
+        if (Validator.notNull(dto.getType()))
+            query.where(qDocument.type.eq(dto.getName()));
 
 
         begin = Validator.isNull(begin) ? 0 : begin;

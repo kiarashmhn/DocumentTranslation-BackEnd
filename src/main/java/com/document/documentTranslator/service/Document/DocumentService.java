@@ -9,13 +9,16 @@ import com.document.documentTranslator.util.DomainUtil;
 import com.document.documentTranslator.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,17 +32,56 @@ public class DocumentService {
         if (Validator.isNull(file))
             throw new DomainException(ErrorMessage.INVALID_INPUT);
 
-        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        dto.setName(URLDecoder.decode(dto.getName(), "UTF-8"));
+
+        if (dto.getSize() > 10000000L)
+            throw new DomainException(ErrorMessage.FILE_SIZE_TOO_BIG);
+
+        String path = getFilePath(String.valueOf(dto.getOrderId()), dto.getType(), dto.getName());
+        InputStream fileStream = new BufferedInputStream(file.getInputStream());
+        createFile(fileStream, path, dto.getSize().intValue());
         Document document = new Document();
 
-        document.setName(fileName);
-        document.setType(file.getContentType());
-        document.setData(file.getBytes());
+        document.setName(dto.getName());
+        document.setType(dto.getType());
+        document.setSize(dto.getSize());
+        document.setPath(path);
         document.setOrderId(dto.getOrderId());
         document.setUsername(dto.getUsername());
 
         return documentRepository.save(document);
     }
+
+    private void createFile(InputStream fileStream, String path, int size) throws DomainException {
+        try{
+            if (size > 0){
+                int read;
+                byte[] bytes = new byte[size];
+
+                File file = new File(path);
+
+                file.getParentFile().mkdirs();
+                try (OutputStream outputStream = new FileOutputStream(file)){
+                    while ((read = fileStream.read(bytes)) != -1){
+                        outputStream.write(bytes, 0, read);
+                    }
+                    outputStream.flush();
+
+                }
+            }
+
+        }
+        catch (Exception e){
+            throw new DomainException(ErrorMessage.INTERNAL_ERROR);
+        }
+    }
+
+    private String getFilePath(String orderId, String type, String fileName) {
+        String basePath = System.getProperty("user.dir") + "/files";
+        String separator = "/";
+        return basePath + separator + orderId + separator + type + separator + fileName;
+    }
+
 
     public Document findById(Long id) throws DomainException {
         Optional<Document> documentOptional = documentRepository.findById(id);
@@ -48,18 +90,15 @@ public class DocumentService {
         return documentOptional.get();
     }
 
-    public Map<String, Object> getById(DocumentDto dto) throws DomainException {
+    public File getFileById(DocumentDto dto) throws DomainException {
         if (Validator.isNull(dto) || Validator.isNull(dto.getId()))
             throw new DomainException(ErrorMessage.INVALID_PARAMETER);
-        return findById(dto.getId()).map();
+        Document document = findById(dto.getId());
+        return new File(document.getPath());
     }
 
     public List<Document> getAll(DocumentDto dto) {
-        List<Document> documents = documentRepository.getAll(dto, DomainUtil.getBegin(dto), DomainUtil.getLength(dto));
-
-        for (Document document: documents)
-            document.setData(null);
-        return documents;
+        return documentRepository.getAll(dto, DomainUtil.getBegin(dto), DomainUtil.getLength(dto));
     }
 
     public String deleteById(DocumentDto dto) throws DomainException {

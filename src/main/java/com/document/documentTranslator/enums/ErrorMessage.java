@@ -14,6 +14,8 @@ public enum ErrorMessage {
     NOT_ADMIN(8, "notAdmin", "کاربر وارد شده مترجم نیست", "not admin"),
     ACCESS_DENIED(9, "accessDenied", "دسترسی محدود", "access denied"),
     EMPTY_EMAIL_PHONE(10, "emptyEmailPhone", "ایمیل یا شماره تلفن را وارد کنید", "empty email phone"),
+    INTERNAL_ERROR(11, "InternalError", "خطای داخلی رخ داده است", "Internal error"),
+    FILE_SIZE_TOO_BIG(11, "FileSizeTooBig", "سایز فایل بیش از حد مجاز است", "FileSizeTooBig"),
     ;
 
     private int code;

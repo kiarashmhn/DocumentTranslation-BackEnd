@@ -3,7 +3,6 @@ package com.document.documentTranslator.entity;
 import com.document.documentTranslator.util.DateUtil;
 
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.util.Map;
 
@@ -17,9 +16,8 @@ public class Document extends AbstractEntity {
     private Long orderId;
     private String type;
     private String username;
-
-    @Lob
-    private byte[] data;
+    private String path;
+    private Long size;
 
     public Document() {}
 
@@ -69,12 +67,20 @@ public class Document extends AbstractEntity {
         this.username = username;
     }
 
-    public byte[] getData() {
-        return data;
+    public String getPath() {
+        return path;
     }
 
-    public void setData(byte[] data) {
-        this.data = data;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     @Override
@@ -86,6 +92,8 @@ public class Document extends AbstractEntity {
         map.put("type", this.getType());
         map.put("creationTime", DateUtil.format(this.getCreationTime()));
         map.put("username", this.getUsername());
+        map.put("path", this.getPath());
+        map.put("size", this.getSize());
 
         return map;
     }

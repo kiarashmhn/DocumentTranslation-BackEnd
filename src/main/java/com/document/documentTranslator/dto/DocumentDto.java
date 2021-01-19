@@ -23,12 +23,14 @@ public class DocumentDto extends BaseDto {
         documentDto.setName(DomainUtil.objectToString(map.get("name")));
         documentDto.setUsername(DomainUtil.objectToString(map.get("username")));
         documentDto.setOrderId(DomainUtil.objectToLong(map.get("orderId")));
+        documentDto.setType(DomainUtil.objectToString(map.get("type")));
+        documentDto.setSize(DomainUtil.objectToLong(map.get("size")));
 
         return documentDto;
     }
 
     public void validate() throws DomainException {
-        if (Validator.isNull(this.getOrderId()) || Validator.isNull(this.getUsername()) || Validator.isNull(this.getName()))
+        if (Validator.isNull(this.getOrderId()) || Validator.isNull(this.getType()) || Validator.isNull(this.getSize()) || Validator.isNull(this.getName()))
             throw new DomainException(ErrorMessage.INVALID_INPUT);
     }
 
