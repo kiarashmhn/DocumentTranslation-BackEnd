@@ -71,7 +71,7 @@ public class ExceptionHandlingController {
 		response.setSuccess(false);
 		response.setMessage(domainException.getMessage());
 
-		logger.error(domainException.getMessage());
+		logger.error("", domainException);
 
 		return ResponseEntity.ok().body(response);
 	}

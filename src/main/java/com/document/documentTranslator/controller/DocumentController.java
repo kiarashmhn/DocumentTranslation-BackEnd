@@ -15,6 +15,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,7 @@ public class DocumentController {
 
     @Authorize(type = Authorize.AAAType.USER)
     @PostMapping(value = "/create", headers = ("content-type=multipart/*"), produces = "application/json")
-    public ResponseEntity<Response> create(@FormDataParam("file") MultipartFile file, @FormDataParam("data") String data) throws DomainException, IOException {
+    public ResponseEntity<Response> create(@FormDataParam("file") MultipartFile file, @RequestParam("data") String data) throws DomainException, IOException {
 
         Map<String , Object> map = DomainUtil.jsonStringtoMap(data);
 
