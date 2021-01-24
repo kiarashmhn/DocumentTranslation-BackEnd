@@ -9,7 +9,7 @@ public enum ErrorMessage {
     NOT_FOUND(3, "NOT_FOUND", "با اطلاعات ارسالی، %s یافت نشد", "%s not found"),
     INVALID_PARAMETER(4, "InvalidPARAMETER", "%s به درستی وارد نشده است", "%s is invalid"),
     INVALID_DATE_FORMAT(5, "InvalidDateFormat", "فرمت تاریخ به درستی وارد نشده است", "invalid date format"),
-    USER_ALREADY_EXISTS(6, "userAlreadyExists", "با این نام کاربری، قبلا حساب ساخته شده است", "user already exists"),
+    USER_ALREADY_EXISTS(6, "userAlreadyExists", "با این نام کاربری، قبلا حساب ساخته شده است. اگر آن حساب متعلق به شما است، از قسمت ورود استفاده کنید", "user already exists"),
     INVALID_INPUT(7, "InvalidInput", "ورودی به درستی وارد نشده است", "invalid input"),
     NOT_ADMIN(8, "notAdmin", "کاربر وارد شده مترجم نیست", "not admin"),
     ACCESS_DENIED(9, "accessDenied", "دسترسی محدود", "access denied"),

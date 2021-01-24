@@ -37,6 +37,7 @@ public class Order extends AbstractEntity {
         map.put("adminName", this.adminName);
         map.put("status", Validator.notNull(this.status) ? this.status.getPersianName() : null);
         map.put("type", this.type);
+        map.put("identifier", this.type + this.getId());
 
         return map;
     }

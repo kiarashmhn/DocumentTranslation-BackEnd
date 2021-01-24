@@ -15,5 +15,7 @@ public interface UserBasicRepository extends CrudRepository<User, Long> {
     User findUserByUsernameAndPassword(String username, String password);
     List<User> findAllByEnable(Boolean enable);
     List<User> findAllByLevelAndEnable(Long level, Boolean enable);
+    List<User> findAllByLevelInAndEnable(List<Long> level, Boolean enable);
+
 
 }

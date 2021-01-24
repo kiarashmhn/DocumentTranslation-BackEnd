@@ -16,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,8 +71,8 @@ public class UserService {
         return user;
     }
 
-    public List<User> getAdmins() throws DomainException {
-        return userBasicRepository.findAllByLevelAndEnable(1L, Boolean.TRUE);
+    public List<User> getAdmins() {
+        return userBasicRepository.findAllByLevelInAndEnable(Arrays.asList(1L, 2L), Boolean.TRUE);
     }
 
     public User updateUser(UserDto dto) throws DomainException {
@@ -90,7 +91,7 @@ public class UserService {
 
     public User validateAdminByName(String username) throws DomainException {
         User user = findByUserName(username);
-        if (!user.getLevel().equals(1L))
+        if (!user.getLevel().equals(1L) && !user.getLevel().equals(2L))
             throw new DomainException(ErrorMessage.NOT_ADMIN);
         return user;
     }
