@@ -5,7 +5,6 @@ import com.document.documentTranslator.entity.AbstractEntity;
 import com.document.documentTranslator.enums.CommonMessages;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oracle.javafx.jmx.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -169,7 +168,7 @@ public class DomainUtil {
         return mapStr.substring(1, mapStr.length() - 1);
     }
 
-    public static Object toJSON(Object object) throws JSONException {
+    public static Object toJSON(Object object) {
         if (object instanceof HashMap) {
             JSONObject json = new JSONObject();
             HashMap map = (HashMap) object;
