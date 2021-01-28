@@ -13,8 +13,10 @@ import org.json.simple.parser.JSONParser;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -218,5 +220,11 @@ public class DomainUtil {
             }
         }
         return map;
+    }
+
+    public static String getFormattedDate(Date date) {
+        if (Validator.notNull(date))
+            return new SimpleDateFormat("dd/MM/yy hh:mm").format(date);
+        return null;
     }
 }

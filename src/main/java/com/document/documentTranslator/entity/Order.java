@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.Map;
 
 @Entity
@@ -18,6 +19,9 @@ public class Order extends AbstractEntity {
     private String username;
     private String details;
     private String adminName;
+    private Date submitDate;
+    private Date acceptanceDate;
+    private Date deliveryDate;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -38,6 +42,9 @@ public class Order extends AbstractEntity {
         map.put("status", Validator.notNull(this.status) ? this.status.getPersianName() : null);
         map.put("type", this.type);
         map.put("identifier", this.type + this.getId());
+        map.put("submitDate", DomainUtil.getFormattedDate(this.submitDate));
+        map.put("acceptanceDate", DomainUtil.getFormattedDate(this.acceptanceDate));
+        map.put("deliveryDate", DomainUtil.getFormattedDate(this.deliveryDate));
 
         return map;
     }
@@ -80,5 +87,29 @@ public class Order extends AbstractEntity {
 
     public void setAdminName(String adminName) {
         this.adminName = adminName;
+    }
+
+    public Date getSubmitDate() {
+        return submitDate;
+    }
+
+    public void setSubmitDate(Date submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public Date getAcceptanceDate() {
+        return acceptanceDate;
+    }
+
+    public void setAcceptanceDate(Date acceptanceDate) {
+        this.acceptanceDate = acceptanceDate;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 }

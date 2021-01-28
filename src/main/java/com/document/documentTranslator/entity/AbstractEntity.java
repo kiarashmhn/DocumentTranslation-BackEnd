@@ -1,6 +1,7 @@
 package com.document.documentTranslator.entity;
 
 import com.document.documentTranslator.enums.CommonMessages;
+import com.document.documentTranslator.util.DomainUtil;
 import com.google.gson.annotations.Expose;
 
 
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +43,7 @@ public abstract class AbstractEntity implements Serializable {
         if (getId() != null) {
             map.put(CommonMessages.ID.getName(), id.toString());
             map.put("enable", enable);
-            map.put("creationTime", creationTime.toString());
+            map.put("creationTime", DomainUtil.getFormattedDate(creationTime));
         }
         return map;
     }

@@ -1,7 +1,6 @@
 package com.document.documentTranslator.dto;
 
 import com.document.documentTranslator.enums.ErrorMessage;
-import com.document.documentTranslator.enums.OrderType;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.util.Validator;
 
@@ -11,6 +10,7 @@ public class OrderDto extends BaseDto {
 
     private String adminName;
     private Map<String, Object> details;
+    private String mode;
     private String status;
     private String type;
     private Long orderId;
@@ -77,5 +77,13 @@ public class OrderDto extends BaseDto {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 }
