@@ -8,6 +8,7 @@ import com.document.documentTranslator.service.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @CrossOrigin
     public ResponseEntity<Response> register(@RequestBody UserDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.createUser(dto),
@@ -32,6 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
+    @CrossOrigin
     public ResponseEntity<Response> login(@RequestBody UserDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.login(dto),
