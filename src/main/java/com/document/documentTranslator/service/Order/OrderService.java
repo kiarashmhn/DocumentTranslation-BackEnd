@@ -44,7 +44,7 @@ public class OrderService {
             order = new Order();
         else order = findById(orderDto.getId());
 
-        if (Validator.notNull(orderDto.getUsername()))
+        if (Validator.notNull(orderDto.getUsername()) && Validator.isNull(orderDto.getId()))
             order.setUsername(orderDto.getUsername());
 
         if (Validator.notNull(orderDto.getType()))
