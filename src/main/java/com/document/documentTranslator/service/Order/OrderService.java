@@ -40,8 +40,11 @@ public class OrderService {
         this.userService.findByUserName(orderDto.getUsername());
 
         Order order;
-        if (Validator.isNull(orderDto.getId()))
+        if (Validator.isNull(orderDto.getId())) {
             order = new Order();
+            order.setStatus(OrderStatus.COMPLETING);
+        }
+
         else order = findById(orderDto.getId());
 
         if (Validator.notNull(orderDto.getUsername()) && Validator.isNull(orderDto.getId()))
@@ -50,14 +53,13 @@ public class OrderService {
         if (Validator.notNull(orderDto.getType()))
             order.setType(orderDto.getType());
 
-        if (Validator.notNull(orderDto.getStatus()))
-            order.setStatus(OrderStatus.lookupByName(orderDto.getStatus()));
-
         if (Validator.notNull(orderDto.getDetails()))
             order.setDetails(DomainUtil.mapToString((HashMap<String, Object>) orderDto.getDetails()));
 
-        if (Validator.notNull(orderDto.getMode()) && orderDto.getMode().equals("SUBMIT"))
+        if (Validator.notNull(orderDto.getMode()) && orderDto.getMode().equals("SUBMIT")) {
             order.setSubmitDate(new Date());
+            order.setStatus(OrderStatus.WAITING_FOR_PAYMENT);
+        }
 
         orderRepository.save(order);
         return order;

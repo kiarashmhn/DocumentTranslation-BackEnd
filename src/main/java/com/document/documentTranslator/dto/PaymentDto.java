@@ -8,9 +8,12 @@ public class PaymentDto extends BaseDto {
 
     private Long orderId;
     private String method;
+    private Long amount;
+    private Long deliveryType;
+    private String code;
 
     public void validate() throws DomainException {
-        if (Validator.isNull(this.getOrderId()) || Validator.isNull(this.getMethod()) || Validator.isNull(this.getUsername()))
+        if (Validator.isNull(this.getOrderId()) || Validator.isNull(this.getMethod()) || Validator.isNull(this.getUsername()) || Validator.isNull(this.getAmount()) || Validator.isNull(this.getDeliveryType()) || Validator.isNull(this.getCode()))
             throw new DomainException(ErrorMessage.INVALID_INPUT);
     }
 
@@ -28,5 +31,29 @@ public class PaymentDto extends BaseDto {
 
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public Long getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(Long deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

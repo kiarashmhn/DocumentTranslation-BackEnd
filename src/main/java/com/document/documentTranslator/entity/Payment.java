@@ -10,6 +10,9 @@ public class Payment extends AbstractEntity {
     private String username;
     private Long orderId;
     private String method;
+    private Long amount;
+    private Long deliveryType;
+    private String code;
 
     public String getUsername() {
         return username;
@@ -33,5 +36,29 @@ public class Payment extends AbstractEntity {
 
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    public Long getDeliveryType() {
+        return deliveryType;
+    }
+
+    public void setDeliveryType(Long deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

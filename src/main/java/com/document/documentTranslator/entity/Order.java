@@ -22,6 +22,7 @@ public class Order extends AbstractEntity {
     private Date submitDate;
     private Date acceptanceDate;
     private Date deliveryDate;
+    private Boolean isPaid;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -31,6 +32,7 @@ public class Order extends AbstractEntity {
     private String type;
 
     public Order() {
+        isPaid = Boolean.FALSE;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class Order extends AbstractEntity {
         map.put("username", this.username);
         map.put("details", DomainUtil.stringToJson(this.details));
         map.put("adminName", this.adminName);
-        map.put("status", Validator.notNull(this.status) ? this.status.getPersianName() : null);
+        map.put("status", Validator.notNull(this.status) ? this.status.name() : null);
         map.put("type", this.type);
         map.put("identifier", this.type + this.getId());
         map.put("submitDate", DomainUtil.getFormattedDate(this.submitDate));
@@ -111,5 +113,13 @@ public class Order extends AbstractEntity {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public Boolean getPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(Boolean paid) {
+        isPaid = paid;
     }
 }

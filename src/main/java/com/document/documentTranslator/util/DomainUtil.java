@@ -190,7 +190,8 @@ public class DomainUtil {
 
     public static String mapToString(HashMap<String, Object> map) {
         Object object = toJSON(map);
-        return objectToString(object);
+        JSONObject jsonObject =  (JSONObject) object;
+        return jsonObject.toString();
     }
 
     public static JSONObject stringToJson(String s) {

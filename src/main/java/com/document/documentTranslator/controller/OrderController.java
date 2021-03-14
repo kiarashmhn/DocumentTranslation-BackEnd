@@ -2,10 +2,12 @@ package com.document.documentTranslator.controller;
 
 import com.document.documentTranslator.aspect.Authorize;
 import com.document.documentTranslator.dto.OrderDto;
+import com.document.documentTranslator.dto.PaymentDto;
 import com.document.documentTranslator.enums.ResponseMessages;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.response.Response;
 import com.document.documentTranslator.service.Order.OrderService;
+import com.document.documentTranslator.service.Payment.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private OrderService orderService;
+    private PaymentService paymentService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, PaymentService paymentService) {
         this.orderService = orderService;
+        this.paymentService = paymentService;
     }
 
     @Authorize(type = Authorize.AAAType.USER)
@@ -62,6 +66,14 @@ public class OrderController {
     public ResponseEntity<Response> unAssign(@RequestBody OrderDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.unAssignOrder(dto),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.USER, injectUserName = false)
+    @PostMapping("/pay")
+    public ResponseEntity<Response> pay(@RequestBody PaymentDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, paymentService.create(dto),
                 true, null));
     }
 }
