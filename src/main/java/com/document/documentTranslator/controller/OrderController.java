@@ -8,6 +8,7 @@ import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.response.Response;
 import com.document.documentTranslator.service.Order.OrderService;
 import com.document.documentTranslator.service.Payment.PaymentService;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +75,14 @@ public class OrderController {
     public ResponseEntity<Response> pay(@RequestBody PaymentDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, paymentService.create(dto),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.USER, injectUserName = false)
+    @PostMapping("/stripePayment")
+    public ResponseEntity<Response> stripePayment(@RequestBody PaymentDto dto) throws DomainException, StripeException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, paymentService.stripePay(dto),
                 true, null));
     }
 }

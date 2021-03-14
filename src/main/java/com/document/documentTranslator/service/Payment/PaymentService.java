@@ -11,8 +11,13 @@ import com.document.documentTranslator.repository.Payment.PaymentRepository;
 import com.document.documentTranslator.service.Order.OrderService;
 import com.document.documentTranslator.service.User.UserService;
 import com.document.documentTranslator.util.DomainUtil;
+import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.stripe.Stripe;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
 
 import java.util.List;
 
@@ -54,5 +59,17 @@ public class PaymentService {
         orderRepository.save(order);
 
         return paymentRepository.save(payment);
+    }
+
+    public CreatePaymentResponse stripePay(PaymentDto dto) throws StripeException {
+
+        Stripe.apiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
+
+        PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
+                .setCurrency("EUR")
+                .setAmount(dto.getAmount() * 100)
+                .build();
+        PaymentIntent intent = PaymentIntent.create(createParams);
+        return new CreatePaymentResponse(intent.getClientSecret());
     }
 }
