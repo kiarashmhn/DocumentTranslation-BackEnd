@@ -63,7 +63,7 @@ public class PaymentService {
 
     public CreatePaymentResponse stripePay(PaymentDto dto) throws StripeException {
 
-        Stripe.apiKey = "sk_test_4eC39HqLyjWDarjtT1zdp7dc";
+        Stripe.apiKey = "sk_test_51IMcfSDJralPixYMg2IOYoq4cl60vm2NblpT0STkp8DUkt0rmOwBFeqtcCuiftco9H4oABC85kIFRNw04wfjOZ0L00Vn3l8l8m";
 
         PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
                 .setCurrency("EUR")
