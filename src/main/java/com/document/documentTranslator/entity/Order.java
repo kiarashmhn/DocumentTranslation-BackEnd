@@ -47,6 +47,7 @@ public class Order extends AbstractEntity {
         map.put("submitDate", DomainUtil.getFormattedDate(this.submitDate));
         map.put("acceptanceDate", DomainUtil.getFormattedDate(this.acceptanceDate));
         map.put("deliveryDate", DomainUtil.getFormattedDate(this.deliveryDate));
+        map.put("isPaid", this.isPaid);
 
         return map;
     }

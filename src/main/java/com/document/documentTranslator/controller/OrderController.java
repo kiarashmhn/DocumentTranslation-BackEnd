@@ -85,4 +85,12 @@ public class OrderController {
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, paymentService.stripePay(dto),
                 true, null));
     }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/getPayments")
+    public ResponseEntity<Response> getPayments(@RequestBody PaymentDto dto) {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, paymentService.getAll(dto),
+                true, null));
+    }
 }
