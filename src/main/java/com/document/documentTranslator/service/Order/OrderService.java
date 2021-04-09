@@ -103,6 +103,20 @@ public class OrderService {
         return order;
     }
 
+    public Order verifyPayment(OrderDto orderDto) throws DomainException {
+        Order order = findById(orderDto.getOrderId());
+        order.setPaymentVerified(Boolean.TRUE);
+        orderRepository.save(order);
+        return order;
+    }
+
+    public Order unVerifyPayment(OrderDto orderDto) throws DomainException {
+        Order order = findById(orderDto.getOrderId());
+        order.setPaymentVerified(Boolean.FALSE);
+        orderRepository.save(order);
+        return order;
+    }
+
     public Order unAssignOrder(OrderDto orderDto) throws DomainException {
         if (Validator.isNull(orderDto))
             throw new DomainException(ErrorMessage.INVALID_PARAMETER);

@@ -23,6 +23,7 @@ public class Order extends AbstractEntity {
     private Date acceptanceDate;
     private Date deliveryDate;
     private Boolean isPaid;
+    private Boolean isPaymentVerified;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -48,6 +49,7 @@ public class Order extends AbstractEntity {
         map.put("acceptanceDate", DomainUtil.getFormattedDate(this.acceptanceDate));
         map.put("deliveryDate", DomainUtil.getFormattedDate(this.deliveryDate));
         map.put("isPaid", this.isPaid);
+        map.put("isPaymentVerified", this.isPaymentVerified);
 
         return map;
     }
@@ -122,5 +124,13 @@ public class Order extends AbstractEntity {
 
     public void setPaid(Boolean paid) {
         isPaid = paid;
+    }
+
+    public Boolean getPaymentVerified() {
+        return isPaymentVerified;
+    }
+
+    public void setPaymentVerified(Boolean paymentVerified) {
+        isPaymentVerified = paymentVerified;
     }
 }

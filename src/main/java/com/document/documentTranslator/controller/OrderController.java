@@ -63,6 +63,22 @@ public class OrderController {
     }
 
     @Authorize(type = Authorize.AAAType.SUPER_ADMIN)
+    @PostMapping("/verifyPayment")
+    public ResponseEntity<Response> verifyPayment(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.verifyPayment(dto),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN)
+    @PostMapping("/unVerifyPayment")
+    public ResponseEntity<Response> unVerifyPayment(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.unVerifyPayment(dto),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN)
     @PostMapping("/unAssign")
     public ResponseEntity<Response> unAssign(@RequestBody OrderDto dto) throws DomainException {
 
