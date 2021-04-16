@@ -102,7 +102,7 @@ public class OrderController {
                 true, null));
     }
 
-    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @Authorize(type = Authorize.AAAType.USER, injectUserName = false)
     @PostMapping("/getPayments")
     public ResponseEntity<Response> getPayments(@RequestBody PaymentDto dto) {
 
