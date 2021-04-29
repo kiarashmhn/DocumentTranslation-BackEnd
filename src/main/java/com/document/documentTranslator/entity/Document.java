@@ -90,6 +90,7 @@ public class Document extends AbstractEntity {
         Map<String , Object> map = super.map();
         map.put("name", this.getName());
         map.put("orderId", this.getOrderId());
+        map.put("messageId", this.getMessageId());
         map.put("type", this.getType());
         map.put("creationTime", DateUtil.format(this.getCreationTime()));
         map.put("username", this.getUsername());

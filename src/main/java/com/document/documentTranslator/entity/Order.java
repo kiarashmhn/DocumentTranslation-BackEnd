@@ -52,6 +52,8 @@ public class Order extends AbstractEntity {
         map.put("deliveryDate", DomainUtil.getFormattedDate(this.deliveryDate));
         map.put("isPaid", this.isPaid);
         map.put("isPaymentVerified", this.isPaymentVerified);
+        map.put("hasNewUserMessage", this.hasNewUserMessage);
+        map.put("hasNewAdminMessage", this.hasNewAdminMessage);
 
         return map;
     }
