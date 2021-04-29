@@ -14,6 +14,7 @@ public class Document extends AbstractEntity {
 
     private String name;
     private Long orderId;
+    private Long messageId;
     private String type;
     private String username;
     private String path;
@@ -98,5 +99,12 @@ public class Document extends AbstractEntity {
         return map;
     }
 
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
 }
 

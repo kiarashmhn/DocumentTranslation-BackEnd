@@ -37,7 +37,7 @@ public class DocumentService {
         if (dto.getSize() > 10000000L)
             throw new DomainException(ErrorMessage.FILE_SIZE_TOO_BIG);
 
-        String path = getFilePath(String.valueOf(dto.getOrderId()), dto.getType(), dto.getName());
+        String path = getFilePath(String.valueOf(dto.getOrderId()), dto.getType(), dto.getName(), dto.getMessageId());
         InputStream fileStream = new BufferedInputStream(file.getInputStream());
         createFile(fileStream, path, dto.getSize().intValue());
         Document document = new Document();
@@ -48,21 +48,22 @@ public class DocumentService {
         document.setPath(path);
         document.setOrderId(dto.getOrderId());
         document.setUsername(dto.getUsername());
+        document.setMessageId(dto.getMessageId());
 
         return documentRepository.save(document);
     }
 
     private void createFile(InputStream fileStream, String path, int size) throws DomainException {
-        try{
-            if (size > 0){
+        try {
+            if (size > 0) {
                 int read;
                 byte[] bytes = new byte[size];
 
                 File file = new File(path);
 
                 file.getParentFile().mkdirs();
-                try (OutputStream outputStream = new FileOutputStream(file)){
-                    while ((read = fileStream.read(bytes)) != -1){
+                try (OutputStream outputStream = new FileOutputStream(file)) {
+                    while ((read = fileStream.read(bytes)) != -1) {
                         outputStream.write(bytes, 0, read);
                     }
                     outputStream.flush();
@@ -70,16 +71,17 @@ public class DocumentService {
                 }
             }
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new DomainException(ErrorMessage.INTERNAL_ERROR);
         }
     }
 
-    private String getFilePath(String orderId, String type, String fileName) {
+    private String getFilePath(String orderId, String type, String fileName, Long messageId) {
         String basePath = System.getProperty("user.dir") + "/files";
         String separator = "/";
-        return basePath + separator + orderId + separator + type + separator + fileName;
+        if (Validator.isNull(messageId))
+            return basePath + separator + orderId + separator + type + separator + fileName;
+        return basePath + separator + orderId + separator + type + separator + messageId + separator + fileName;
     }
 
 

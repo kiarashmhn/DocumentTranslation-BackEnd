@@ -13,6 +13,7 @@ public class DocumentDto extends BaseDto {
     private Long size;
     private String path;
     private Long orderId;
+    private Long messageId;
     private String type;
 
     public static DocumentDto fromMap(Map<String, Object> map) throws DomainException {
@@ -25,6 +26,7 @@ public class DocumentDto extends BaseDto {
         documentDto.setOrderId(DomainUtil.objectToLong(map.get("orderId")));
         documentDto.setType(DomainUtil.objectToString(map.get("type")));
         documentDto.setSize(DomainUtil.objectToLong(map.get("size")));
+        documentDto.setMessageId(DomainUtil.objectToLong(map.get("messageId")));
 
         return documentDto;
     }
@@ -75,5 +77,13 @@ public class DocumentDto extends BaseDto {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
     }
 }

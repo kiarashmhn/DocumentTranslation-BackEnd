@@ -24,6 +24,8 @@ public class Order extends AbstractEntity {
     private Date deliveryDate;
     private Boolean isPaid;
     private Boolean isPaymentVerified;
+    private Boolean hasNewUserMessage;
+    private Boolean hasNewAdminMessage;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -132,5 +134,21 @@ public class Order extends AbstractEntity {
 
     public void setPaymentVerified(Boolean paymentVerified) {
         isPaymentVerified = paymentVerified;
+    }
+
+    public Boolean getHasNewUserMessage() {
+        return hasNewUserMessage;
+    }
+
+    public void setHasNewUserMessage(Boolean hasNewUserMessage) {
+        this.hasNewUserMessage = hasNewUserMessage;
+    }
+
+    public Boolean getHasNewAdminMessage() {
+        return hasNewAdminMessage;
+    }
+
+    public void setHasNewAdminMessage(Boolean hasNewAdminMessage) {
+        this.hasNewAdminMessage = hasNewAdminMessage;
     }
 }
