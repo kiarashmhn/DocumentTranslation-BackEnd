@@ -1,5 +1,6 @@
 package com.document.documentTranslator.controller;
 
+import com.document.documentTranslator.aspect.Authorize;
 import com.document.documentTranslator.dto.UserDto;
 import com.document.documentTranslator.enums.ResponseMessages;
 import com.document.documentTranslator.exception.DomainException;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/user")
 public class UserController {
 
     private UserService userService;
@@ -25,7 +26,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<Response> register(@RequestBody UserDto dto) throws DomainException {
 
@@ -33,11 +34,35 @@ public class UserController {
                 true, null));
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<Response> login(@RequestBody UserDto dto) throws DomainException {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.login(dto),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/gets")
+    public ResponseEntity<Response> gets(@RequestBody UserDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.getAll(dto),
+                true, userService.getAllCount(dto)));
+    }
+
+    @Authorize(type = Authorize.AAAType.USER)
+    @PostMapping("/get")
+    public ResponseEntity<Response> get() throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.getUserMap(),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.USER, injectUserName = false)
+    @PostMapping("/update")
+    public ResponseEntity<Response> update(@RequestBody UserDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, userService.updateUser(dto),
                 true, null));
     }
 }

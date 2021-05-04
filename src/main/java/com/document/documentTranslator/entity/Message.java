@@ -13,6 +13,7 @@ public class Message extends AbstractEntity {
     private String text;
     private Boolean hasFile;
     private MessageSender sender;
+    private String senderName;
 
     public Long getOrderId() {
         return orderId;
@@ -44,5 +45,13 @@ public class Message extends AbstractEntity {
 
     public void setSender(MessageSender sender) {
         this.sender = sender;
+    }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
     }
 }

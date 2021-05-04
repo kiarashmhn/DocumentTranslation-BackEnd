@@ -13,6 +13,7 @@ public class OrderDto extends BaseDto {
     private String mode;
     private String status;
     private String type;
+    private String identifier;
     private Long orderId;
 
     public OrderDto() {
@@ -85,5 +86,13 @@ public class OrderDto extends BaseDto {
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 }

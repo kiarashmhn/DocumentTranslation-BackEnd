@@ -32,11 +32,10 @@ public class MessageService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order validateAndFindOrder(Long orderId) throws DomainException {
+    public Order validateAndFindOrder(Long orderId, User user) throws DomainException {
 
-        User user = userService.getCurrentUser();
         Order order = orderService.findById(orderId);
-        if (userService.isSuperAdmin(user) || user.getUsername().equals(order.getUsername()))
+        if (userService.isAdmin(user) || user.getUsername().equals(order.getUsername()))
             return order;
         throw new DomainException(ErrorMessage.ACCESS_DENIED);
     }
@@ -47,13 +46,15 @@ public class MessageService {
             throw new DomainException(ErrorMessage.INVALID_INPUT);
         dto.validate();
 
-        Order order = validateAndFindOrder(dto.getOrderId());
+        User user = userService.getCurrentUser();
+        Order order = validateAndFindOrder(dto.getOrderId(), user);
 
         Message message = new Message();
         message.setText(dto.getText());
         message.setHasFile(dto.getHasFile());
         message.setOrderId(dto.getOrderId());
         message.setSender(dto.getSender());
+        message.setSenderName(user.getUsername());
 
         messageRepository.save(message);
 
@@ -70,7 +71,8 @@ public class MessageService {
         if (Validator.isNull(messageDto) || Validator.isNull(messageDto.getOrderId()))
             throw new DomainException(ErrorMessage.INVALID_INPUT);
 
-        Order order = validateAndFindOrder(messageDto.getOrderId());
+        User user = userService.getCurrentUser();
+        Order order = validateAndFindOrder(messageDto.getOrderId(), user);
         if (messageDto.getSender().equals(MessageSender.ADMIN))
             order.setHasNewUserMessage(Boolean.FALSE);
         else order.setHasNewAdminMessage(Boolean.FALSE);

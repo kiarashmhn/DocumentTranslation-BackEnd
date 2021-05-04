@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.Map;
 
 @Entity
 @Table(name = "users")
@@ -16,6 +17,17 @@ public class User extends AbstractEntity implements UserDetails {
     private String email;
     private Long level;
     private String phone;
+
+    @Override
+    public Map<String, Object> map() {
+        Map<String, Object> map = super.map();
+        map.put("username", this.username);
+        map.put("email", this.email);
+        map.put("level", this.level);
+        map.put("phone", this.phone);
+
+        return map;
+    }
 
     public User() {
     }

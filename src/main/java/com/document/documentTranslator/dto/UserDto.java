@@ -12,6 +12,7 @@ public class UserDto extends BaseDto {
     private Long level;
     private String token;
     private String phone;
+    private Boolean enabled;
 
     public UserDto() {
     }
@@ -78,5 +79,13 @@ public class UserDto extends BaseDto {
         this.validate();
         if (Validator.isNull(this.email) && Validator.isNull(this.phone))
             throw new DomainException(ErrorMessage.EMPTY_EMAIL_PHONE);
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }
