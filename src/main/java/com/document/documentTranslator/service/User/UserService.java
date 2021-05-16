@@ -67,7 +67,7 @@ public class UserService {
     }
 
     public User findByUserName(String username) throws DomainException {
-        User user = this.userRepository.findUserByUsername(username);
+        User user = this.userRepository.findByUsernameAndEnable(username, Boolean.TRUE);
         if (Validator.isNull(user))
             throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.INVALID_PARAMETER);
         return user;
@@ -77,7 +77,7 @@ public class UserService {
         if (Validator.isNull(dto) || Validator.isNull(dto.getUsername()))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.EMPTY_PARAMETER);
 
-        User user = this.userRepository.findUserByUsername(dto.getUsername());
+        User user = this.userRepository.findByUsernameAndEnable(dto.getUsername(), Boolean.TRUE);
         if (Validator.isNull(user))
             throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.INVALID_PARAMETER);
         return user;
@@ -121,7 +121,7 @@ public class UserService {
 
         userDto.validate();
         userDto.registerValidate();
-        User oldUser = this.userRepository.findUserByUsername(userDto.getUsername());
+        User oldUser = this.userRepository.findByUsernameAndEnable(userDto.getUsername(), Boolean.TRUE);
         if (Validator.notNull(oldUser))
             throw new DomainException(ErrorMessage.USER_ALREADY_EXISTS);
 

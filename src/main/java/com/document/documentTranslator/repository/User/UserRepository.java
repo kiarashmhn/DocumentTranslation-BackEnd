@@ -6,7 +6,7 @@ import com.document.documentTranslator.repository.Base.BaseRepository;
 import java.util.List;
 
 public interface UserRepository extends BaseRepository<User>, UserDslRepository {
-    User findUserByUsername(String username);
+    User findByUsernameAndEnable(String username, Boolean enable);
     User findUserById(Long id);
     User findUserByUsernameAndPassword(String username, String password);
     List<User> findAllByEnable(Boolean enable);
