@@ -8,7 +8,7 @@ import com.document.documentTranslator.enums.ErrorMessage;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.repository.Order.OrderRepository;
 import com.document.documentTranslator.repository.User.UserRepository;
-import com.document.documentTranslator.service.Order.OrderService;
+import com.document.documentTranslator.service.Email.EmailService;
 import com.document.documentTranslator.util.DomainUtil;
 import com.document.documentTranslator.util.Validator;
 import io.jsonwebtoken.Jwts;
@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,9 @@ public class UserService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private OrderRepository orderRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, OrderRepository orderRepository) {
@@ -99,6 +103,8 @@ public class UserService {
         }
         if (Validator.notNull(dto.getPhone()))
             user.setPhone(dto.getPhone());
+        if (Validator.notNull(dto.getEnabled()))
+            user.setEnable(dto.getEnabled());
 
         this.userRepository.save(user);
         return user;
@@ -143,8 +149,13 @@ public class UserService {
         User user = findByUserName(userDto.getUsername());
         if (Validator.isNull(user))
             throw new DomainException(String.format(ErrorMessage.NOT_FOUND.getFarsiMessage(), "نام کاربری"), ErrorMessage.NOT_FOUND);
-        if (!bCryptPasswordEncoder.matches(userDto.getPassword(), user.getPassword()))
+        if (!bCryptPasswordEncoder.matches(userDto.getPassword(), user.getPassword())){
+            if (Validator.isNull(user.getTempPassword()) ||
+                    Validator.isNull(user.getTempPassCreationDate()) ||
+                    !userDto.getPassword().equals(user.getTempPassword()) ||
+                    differenceInDays(new Date(), user.getTempPassCreationDate()) > 2.0)
             throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری یا رمز عبور"), ErrorMessage.INVALID_PARAMETER);
+        }
 
         userDto.setLevel(user.getLevel());
         userDto.setEmail(user.getEmail());
@@ -207,4 +218,21 @@ public class UserService {
                 return true;
         return false;
     }
+
+    public void recoverPassword(UserDto dto) throws DomainException {
+        if (Validator.isNull(dto) || Validator.isNull(dto.getEmail()))
+            return;
+        User user = findByUserName(dto.getEmail());
+        user.setTempPassword(String.valueOf(new Random().nextInt(100000000)));
+        user.setTempPassCreationDate(new Date());
+        userRepository.save(user);
+
+        emailService.sendPasswordRecoveryMailMessage(user.getUsername(), user.getTempPassword());
+    }
+
+    public double differenceInDays(Date d1, Date d2) {
+        long diff = d1.getTime() - d2.getTime();
+        return (double) diff / (1000 * 60 * 60 * 24);
+    }
+
 }

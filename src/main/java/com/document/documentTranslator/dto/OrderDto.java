@@ -15,6 +15,7 @@ public class OrderDto extends BaseDto {
     private String type;
     private String identifier;
     private Long orderId;
+    private Boolean enabled;
 
     public OrderDto() {
     }
@@ -94,5 +95,13 @@ public class OrderDto extends BaseDto {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }

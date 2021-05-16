@@ -61,6 +61,9 @@ public class OrderService {
             order.setStatus(OrderStatus.WAITING_FOR_PAYMENT);
         }
 
+        if (Validator.notNull(orderDto.getEnabled()))
+            order.setEnable(orderDto.getEnabled());
+
         orderRepository.save(order);
         return order;
     }

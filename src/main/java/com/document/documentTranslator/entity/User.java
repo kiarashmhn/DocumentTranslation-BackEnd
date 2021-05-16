@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 @Entity
@@ -17,6 +18,8 @@ public class User extends AbstractEntity implements UserDetails {
     private String email;
     private Long level;
     private String phone;
+    private String tempPassword;
+    private Date tempPassCreationDate;
 
     @Override
     public Map<String, Object> map() {
@@ -95,5 +98,21 @@ public class User extends AbstractEntity implements UserDetails {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getTempPassword() {
+        return tempPassword;
+    }
+
+    public void setTempPassword(String tempPassword) {
+        this.tempPassword = tempPassword;
+    }
+
+    public Date getTempPassCreationDate() {
+        return tempPassCreationDate;
+    }
+
+    public void setTempPassCreationDate(Date tempPassCreationDate) {
+        this.tempPassCreationDate = tempPassCreationDate;
     }
 }

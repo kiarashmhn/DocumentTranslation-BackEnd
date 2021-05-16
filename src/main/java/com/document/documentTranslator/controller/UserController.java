@@ -42,6 +42,15 @@ public class UserController {
                 true, null));
     }
 
+    @PostMapping(value = "/recoverPass", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<Response> recoverPassword(@RequestBody UserDto dto) throws DomainException {
+
+        userService.recoverPassword(dto);
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, null,
+                true, null));
+    }
+
     @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
     @PostMapping("/gets")
     public ResponseEntity<Response> gets(@RequestBody UserDto dto) throws DomainException {
