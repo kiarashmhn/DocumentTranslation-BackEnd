@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -21,6 +22,9 @@ public class User extends AbstractEntity implements UserDetails {
     private String tempPassword;
     private Date tempPassCreationDate;
 
+    @Transient
+    private Long orderCount;
+
     @Override
     public Map<String, Object> map() {
         Map<String, Object> map = super.map();
@@ -28,6 +32,7 @@ public class User extends AbstractEntity implements UserDetails {
         map.put("email", this.email);
         map.put("level", this.level);
         map.put("phone", this.phone);
+        map.put("orderCount", this.orderCount);
 
         return map;
     }
@@ -114,5 +119,13 @@ public class User extends AbstractEntity implements UserDetails {
 
     public void setTempPassCreationDate(Date tempPassCreationDate) {
         this.tempPassCreationDate = tempPassCreationDate;
+    }
+
+    public Long getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(Long orderCount) {
+        this.orderCount = orderCount;
     }
 }

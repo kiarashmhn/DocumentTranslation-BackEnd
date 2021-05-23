@@ -195,7 +195,14 @@ public class UserService {
         if (Validator.isNull(dto))
             throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "نام کاربری"), ErrorMessage.EMPTY_PARAMETER);
 
-        return DomainUtil.toMapList(userRepository.getAll(dto, DomainUtil.getBegin(dto), DomainUtil.getLength(dto)), DomainUtil.getBegin(dto));
+        List<User> users = userRepository.getAll(dto, DomainUtil.getBegin(dto), DomainUtil.getLength(dto));
+        for (User user : users) {
+            OrderDto orderDto = new OrderDto();
+            orderDto.setUsername(user.getUsername());
+            user.setOrderCount(orderRepository.getAllCount(orderDto, 0, 1000));
+        }
+
+        return DomainUtil.toMapList(users, DomainUtil.getBegin(dto));
     }
 
     public Long getAllCount(UserDto dto) {
