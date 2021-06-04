@@ -65,6 +65,8 @@ public class OrderService {
         if (Validator.notNull(orderDto.getEnabled()))
             order.setEnable(orderDto.getEnabled());
 
+        order.setLastModifiedDate(new Date());
+
         orderRepository.save(order);
         return order;
     }
@@ -110,6 +112,7 @@ public class OrderService {
         order.setAdminName(user.getUsername());
         order.setStatus(OrderStatus.IN_PROGRESS);
         order.setAcceptanceDate(new Date());
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
         return order;
     }
@@ -117,6 +120,7 @@ public class OrderService {
     public Order verifyPayment(OrderDto orderDto) throws DomainException {
         Order order = findById(orderDto.getOrderId());
         order.setPaymentVerified(Boolean.TRUE);
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
         return order;
     }
@@ -124,6 +128,7 @@ public class OrderService {
     public Order unVerifyPayment(OrderDto orderDto) throws DomainException {
         Order order = findById(orderDto.getOrderId());
         order.setPaymentVerified(Boolean.FALSE);
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
         return order;
     }
@@ -137,6 +142,7 @@ public class OrderService {
         order.setAdminName(null);
         order.setStatus(OrderStatus.PENDING);
         order.setAcceptanceDate(null);
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
         return order;
     }
@@ -148,6 +154,7 @@ public class OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         order.setFinalDocumentId(dto.getFinalDocumentId());
         order.setDeliveryDate(new Date());
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
         emailService.sendOrderDoneMailMessage(order.getUsername(), order.getType() + order.getId());
         return order;

@@ -19,6 +19,7 @@ import com.stripe.Stripe;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -56,6 +57,7 @@ public class PaymentService {
         payment.setOrderId(order.getId());
         order.setPaid(Boolean.TRUE);
         order.setStatus(OrderStatus.PENDING);
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
 
         return paymentRepository.save(payment);

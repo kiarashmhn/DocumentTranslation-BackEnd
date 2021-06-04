@@ -49,6 +49,9 @@ public class UserDslRepositoryImpl implements UserDslRepository {
         if (Validator.notNull(dto.getLevel()))
             query.where(qUser.level.eq(dto.getLevel()));
 
+        if (Validator.notNull(dto.getLastLogin()))
+            query.where(qUser.lastLogin.lt(dto.getLastLogin()));
+
         begin = Validator.isNull(begin) ? 0 : begin;
         length = Validator.isNull(length) ? 100 : length;
 

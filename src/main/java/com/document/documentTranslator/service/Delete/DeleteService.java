@@ -17,6 +17,7 @@ import com.document.documentTranslator.repository.Message.MessageRepository;
 import com.document.documentTranslator.repository.Order.OrderRepository;
 import com.document.documentTranslator.repository.Payment.PaymentRepository;
 import com.document.documentTranslator.repository.User.UserRepository;
+import com.document.documentTranslator.service.Email.EmailService;
 import com.document.documentTranslator.service.Order.OrderService;
 import com.document.documentTranslator.service.User.UserService;
 import com.document.documentTranslator.util.Validator;
@@ -57,6 +58,9 @@ public class DeleteService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     Logger logger = Logger.getLogger(DeleteService.class);
 
@@ -109,6 +113,7 @@ public class DeleteService {
         if (!userService.isSuperAdmin(user) && !order.getUsername().equals(user.getUsername()))
             throw new DomainException(ErrorMessage.ACCESS_DENIED);
         order.setEnable(Boolean.FALSE);
+        order.setLastModifiedDate(new Date());
         orderRepository.save(order);
     }
 
@@ -166,5 +171,49 @@ public class DeleteService {
     public void deleteExpiredOrders() throws DomainException {
         for (Order order : getExpiredOrders())
             deleteOrderById(order.getId());
+    }
+
+    public List<User> getExpiryUsers() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -6);
+
+        UserDto dto = new UserDto();
+        dto.setLastLogin(c.getTime());
+        dto.setEnabled(Boolean.TRUE);
+        return userRepository.getAll(dto, 0, 100000);
+    }
+
+    public List<User> getExpiredUsers() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, -7);
+
+        UserDto dto = new UserDto();
+        dto.setLastLogin(c.getTime());
+        dto.setEnabled(Boolean.TRUE);
+        return userRepository.getAll(dto, 0, 100000);
+    }
+
+    public List<String> getExpiryUserNames() {
+        return getExpiryUsers().stream().map(User::getUsername).collect(Collectors.toList());
+    }
+
+    public List<String> getExpiredUserNames() {
+        return getExpiredUsers().stream().map(User::getUsername).collect(Collectors.toList());
+    }
+
+    public void deleteExpiredUsers() throws DomainException {
+        for (User user : getExpiredUsers()) {
+            UserDto dto = new UserDto();
+            dto.setUsername(user.getUsername());
+            deleteUser(dto);
+        }
+    }
+
+    public void sendExpiryEmails() {
+        for (User user : getExpiryUsers()) {
+            emailService.sendWarningMail(user.getUsername());
+        }
     }
 }

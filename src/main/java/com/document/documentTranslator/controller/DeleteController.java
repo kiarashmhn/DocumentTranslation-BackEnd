@@ -54,4 +54,38 @@ public class DeleteController {
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, deleteService.getExpiredOrderIds(),
                 true, null));
     }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/user/expired")
+    public ResponseEntity<Response> deleteExpiredUsers() throws DomainException {
+
+        deleteService.deleteExpiredUsers();
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, null,
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/user/expiry")
+    public ResponseEntity<Response> sendExpiryMail() {
+
+        deleteService.sendExpiryEmails();
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, null,
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/user/expiredIds")
+    public ResponseEntity<Response> getExpiredUserNames() {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, deleteService.getExpiredUserNames(),
+                true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.SUPER_ADMIN, injectUserName = false)
+    @PostMapping("/user/expiryIds")
+    public ResponseEntity<Response> getExpiryUserNames() {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, deleteService.getExpiryUserNames(),
+                true, null));
+    }
 }

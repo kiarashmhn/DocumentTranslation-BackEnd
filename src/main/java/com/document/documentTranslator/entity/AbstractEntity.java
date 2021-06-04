@@ -30,7 +30,6 @@ public abstract class AbstractEntity implements Serializable {
     @Column(name = "ENABLED")
     protected Boolean enable;
 
-    @LastModifiedDate
     private Date lastModifiedDate;
 
     protected Date creationTime;
