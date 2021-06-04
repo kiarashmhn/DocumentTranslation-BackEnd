@@ -52,8 +52,14 @@ public class OrderDslRepositoryImpl implements OrderDslRepository {
         if (Validator.notNull(dto.getAdminName()))
             query.where(qOrder.adminName.eq(dto.getAdminName()));
 
+        if (Validator.notNull(dto.getFromDate()))
+            query.where(qOrder.creationTime.lt(dto.getFromDate()));
+
         if (Validator.notNull(dto.getIdentifier()))
             query.where(qOrder.type.concat(qOrder.id.stringValue()).eq(dto.getIdentifier()));
+
+        if (Validator.listNotNull(dto.getStatuses()))
+            query.where(qOrder.status.in(dto.getStatuses()));
 
 
         begin = Validator.isNull(begin) ? 0 : begin;

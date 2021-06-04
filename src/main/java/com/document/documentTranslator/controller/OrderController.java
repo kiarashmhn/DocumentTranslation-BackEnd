@@ -109,4 +109,12 @@ public class OrderController {
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, paymentService.getAll(dto),
                 true, null));
     }
+
+    @Authorize(type = Authorize.AAAType.ADMIN, injectUserName = false)
+    @PostMapping("/done")
+    public ResponseEntity<Response> done(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.orderDone(dto),
+                true, null));
+    }
 }

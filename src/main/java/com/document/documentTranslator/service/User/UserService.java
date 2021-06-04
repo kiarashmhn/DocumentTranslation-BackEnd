@@ -131,6 +131,7 @@ public class UserService {
         user.setLevel(userDto.getLevel());
         user.setEmail(userDto.getEmail());
         user.setPhone(userDto.getPhone());
+        user.setLastLogin(new Date());
 
         this.userRepository.save(user);
         return user;
@@ -149,13 +150,15 @@ public class UserService {
         User user = findByUserName(userDto.getUsername());
         if (Validator.isNull(user))
             throw new DomainException(String.format(ErrorMessage.NOT_FOUND.getFarsiMessage(), "نام کاربری"), ErrorMessage.NOT_FOUND);
-        if (!bCryptPasswordEncoder.matches(userDto.getPassword(), user.getPassword())){
+        if (!bCryptPasswordEncoder.matches(userDto.getPassword(), user.getPassword())) {
             if (Validator.isNull(user.getTempPassword()) ||
                     Validator.isNull(user.getTempPassCreationDate()) ||
                     !userDto.getPassword().equals(user.getTempPassword()) ||
                     differenceInDays(new Date(), user.getTempPassCreationDate()) > 2.0)
-            throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری یا رمز عبور"), ErrorMessage.INVALID_PARAMETER);
+                throw new DomainException(String.format(ErrorMessage.INVALID_PARAMETER.getFarsiMessage(), "نام کاربری یا رمز عبور"), ErrorMessage.INVALID_PARAMETER);
         }
+        user.setLastLogin(new Date());
+        userRepository.save(user);
 
         userDto.setLevel(user.getLevel());
         userDto.setEmail(user.getEmail());
@@ -212,16 +215,28 @@ public class UserService {
     public Map<String, Object> getUserMap() throws DomainException {
         User user = getCurrentUser();
         Map<String, Object> map = user.map();
-        map.put("hasNewMessage", hasNewMessage(user));
+        List<Order> orders = getUserOrders(user);
+        map.put("hasNewMessage", hasNewMessage(user, orders));
+        map.put("changeState", hasChangeState(orders));
         return map;
     }
 
-    public boolean hasNewMessage(User user) {
+    public List<Order> getUserOrders(User user) {
         OrderDto orderDto = new OrderDto();
         orderDto.setUsername(user.getUsername());
-        List<Order> orders = orderRepository.getAll(orderDto, 1, 1000);
+        return orderRepository.getAll(orderDto, 0, 1000);
+    }
+
+    public boolean hasNewMessage(User user, List<Order> orders) {
         for (Order order : orders)
-            if (order.getHasNewAdminMessage())
+            if (order.getHasNewAdminMessage() || (order.getHasNewUserMessage() && isAdmin(user)))
+                return true;
+        return false;
+    }
+
+    public boolean hasChangeState(List<Order> orders) {
+        for (Order order : orders)
+            if (order.getChangeState())
                 return true;
         return false;
     }

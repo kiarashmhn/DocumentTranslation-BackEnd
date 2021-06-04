@@ -4,6 +4,8 @@ import com.document.documentTranslator.enums.ErrorMessage;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.util.Validator;
 
+import java.util.Date;
+
 
 public class UserDto extends BaseDto {
 
@@ -13,6 +15,7 @@ public class UserDto extends BaseDto {
     private String token;
     private String phone;
     private Boolean enabled;
+    private Date lastLogin;
 
     public UserDto() {
     }
@@ -87,5 +90,13 @@ public class UserDto extends BaseDto {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

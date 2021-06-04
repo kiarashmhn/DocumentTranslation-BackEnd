@@ -8,6 +8,7 @@ import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.response.Response;
 import com.document.documentTranslator.service.Document.DocumentService;
 import com.document.documentTranslator.util.DomainUtil;
+import com.document.documentTranslator.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class DocumentController {
     @PostMapping(value = "/create", headers = ("content-type=multipart/*"), produces = "application/json")
     public ResponseEntity<Response> create(@FormDataParam("file") MultipartFile file, @RequestParam("data") String data) throws DomainException, IOException {
 
-        Map<String , Object> map = DomainUtil.jsonStringtoMap(data);
+        Map<String, Object> map = DomainUtil.jsonStringtoMap(data);
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, documentService.create(file, DocumentDto.fromMap(map)),
                 true, null));
@@ -50,6 +51,16 @@ public class DocumentController {
 
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, documentService.getAll(dto),
                 true, null));
+    }
+
+    @Authorize(type = Authorize.AAAType.USER)
+    @PostMapping(value = "/getDocument")
+    public ResponseEntity<Response> getDocument(@RequestBody DocumentDto dto) throws DomainException {
+
+        if (Validator.notNull(dto) && Validator.notNull(dto.getId()))
+            return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, documentService.findById(dto.getId()),
+                    true, null));
+        return ResponseEntity.badRequest().build();
     }
 
     @Authorize(type = Authorize.AAAType.USER)

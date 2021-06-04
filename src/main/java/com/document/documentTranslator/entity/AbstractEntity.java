@@ -3,6 +3,7 @@ package com.document.documentTranslator.entity;
 import com.document.documentTranslator.enums.CommonMessages;
 import com.document.documentTranslator.util.DomainUtil;
 import com.google.gson.annotations.Expose;
+import org.springframework.data.annotation.LastModifiedDate;
 
 
 import javax.persistence.Column;
@@ -28,6 +29,9 @@ public abstract class AbstractEntity implements Serializable {
 
     @Column(name = "ENABLED")
     protected Boolean enable;
+
+    @LastModifiedDate
+    private Date lastModifiedDate;
 
     protected Date creationTime;
 
@@ -69,5 +73,13 @@ public abstract class AbstractEntity implements Serializable {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
     }
 }

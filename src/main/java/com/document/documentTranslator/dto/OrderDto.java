@@ -1,9 +1,12 @@
 package com.document.documentTranslator.dto;
 
 import com.document.documentTranslator.enums.ErrorMessage;
+import com.document.documentTranslator.enums.OrderStatus;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.util.Validator;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class OrderDto extends BaseDto {
@@ -16,6 +19,9 @@ public class OrderDto extends BaseDto {
     private String identifier;
     private Long orderId;
     private Boolean enabled;
+    private Long finalDocumentId;
+    private Date fromDate;
+    private List<OrderStatus> statuses;
 
     public OrderDto() {
     }
@@ -103,5 +109,29 @@ public class OrderDto extends BaseDto {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public Long getFinalDocumentId() {
+        return finalDocumentId;
+    }
+
+    public void setFinalDocumentId(Long finalDocumentId) {
+        this.finalDocumentId = finalDocumentId;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public List<OrderStatus> getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(List<OrderStatus> statuses) {
+        this.statuses = statuses;
     }
 }

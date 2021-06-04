@@ -21,6 +21,7 @@ public class User extends AbstractEntity implements UserDetails {
     private String phone;
     private String tempPassword;
     private Date tempPassCreationDate;
+    private Date lastLogin;
 
     @Transient
     private Long orderCount;
@@ -33,6 +34,7 @@ public class User extends AbstractEntity implements UserDetails {
         map.put("level", this.level);
         map.put("phone", this.phone);
         map.put("orderCount", this.orderCount);
+        map.put("lastLogin", this.lastLogin);
 
         return map;
     }
@@ -127,5 +129,13 @@ public class User extends AbstractEntity implements UserDetails {
 
     public void setOrderCount(Long orderCount) {
         this.orderCount = orderCount;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
     }
 }

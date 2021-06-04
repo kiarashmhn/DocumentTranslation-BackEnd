@@ -26,6 +26,8 @@ public class Order extends AbstractEntity {
     private Boolean isPaymentVerified;
     private Boolean hasNewUserMessage;
     private Boolean hasNewAdminMessage;
+    private Boolean changeState;
+    private Long finalDocumentId;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -36,6 +38,10 @@ public class Order extends AbstractEntity {
 
     public Order() {
         isPaid = Boolean.FALSE;
+        isPaymentVerified = Boolean.FALSE;
+        changeState = Boolean.FALSE;
+        hasNewAdminMessage = Boolean.FALSE;
+        hasNewUserMessage = Boolean.FALSE;
     }
 
     @Override
@@ -54,6 +60,8 @@ public class Order extends AbstractEntity {
         map.put("isPaymentVerified", this.isPaymentVerified);
         map.put("hasNewUserMessage", this.hasNewUserMessage);
         map.put("hasNewAdminMessage", this.hasNewAdminMessage);
+        map.put("changeState", this.changeState);
+        map.put("finalDocumentId", this.finalDocumentId);
 
         return map;
     }
@@ -80,6 +88,8 @@ public class Order extends AbstractEntity {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+        if (!status.equals(OrderStatus.PENDING) && !status.equals(OrderStatus.PENDING))
+            this.setChangeState(Boolean.TRUE);
     }
 
     public String getType() {
@@ -152,5 +162,21 @@ public class Order extends AbstractEntity {
 
     public void setHasNewAdminMessage(Boolean hasNewAdminMessage) {
         this.hasNewAdminMessage = hasNewAdminMessage;
+    }
+
+    public Boolean getChangeState() {
+        return changeState;
+    }
+
+    public void setChangeState(Boolean changeState) {
+        this.changeState = changeState;
+    }
+
+    public Long getFinalDocumentId() {
+        return finalDocumentId;
+    }
+
+    public void setFinalDocumentId(Long finalDocumentId) {
+        this.finalDocumentId = finalDocumentId;
     }
 }

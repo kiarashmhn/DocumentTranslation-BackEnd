@@ -7,6 +7,7 @@ import com.document.documentTranslator.enums.ErrorMessage;
 import com.document.documentTranslator.enums.OrderStatus;
 import com.document.documentTranslator.exception.DomainException;
 import com.document.documentTranslator.repository.Order.OrderRepository;
+import com.document.documentTranslator.service.Email.EmailService;
 import com.document.documentTranslator.service.User.UserService;
 import com.document.documentTranslator.util.DomainUtil;
 import com.document.documentTranslator.util.Validator;
@@ -24,11 +25,13 @@ public class OrderService {
 
     private OrderRepository orderRepository;
     private UserService userService;
+    private EmailService emailService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, UserService userService) {
+    public OrderService(OrderRepository orderRepository, UserService userService, EmailService emailService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     public Order createOrUpdate(OrderDto orderDto) throws DomainException {
@@ -43,9 +46,7 @@ public class OrderService {
         if (Validator.isNull(orderDto.getId())) {
             order = new Order();
             order.setStatus(OrderStatus.COMPLETING);
-        }
-
-        else order = findById(orderDto.getId());
+        } else order = findById(orderDto.getId());
 
         if (Validator.notNull(orderDto.getUsername()) && Validator.isNull(orderDto.getId()))
             order.setUsername(orderDto.getUsername());
@@ -85,7 +86,14 @@ public class OrderService {
 
         if (Validator.isNull(orderDto))
             throw new DomainException(ErrorMessage.INVALID_PARAMETER);
-        return DomainUtil.toMapList(orderRepository.getAll(orderDto, DomainUtil.getBegin(orderDto), DomainUtil.getLength(orderDto)), DomainUtil.getBegin(orderDto));
+        User user = userService.getCurrentUser();
+        List<Order> orders = orderRepository.getAll(orderDto, DomainUtil.getBegin(orderDto), DomainUtil.getLength(orderDto));
+        for (Order order : orders)
+            if (order.getUsername().equals(user.getUsername())) {
+                order.setChangeState(Boolean.FALSE);
+                orderRepository.save(order);
+            }
+        return DomainUtil.toMapList(orders, DomainUtil.getBegin(orderDto));
     }
 
     public Long getAllCount(OrderDto orderDto) {
@@ -130,6 +138,18 @@ public class OrderService {
         order.setStatus(OrderStatus.PENDING);
         order.setAcceptanceDate(null);
         orderRepository.save(order);
+        return order;
+    }
+
+    public Order orderDone(OrderDto dto) throws DomainException {
+        if (Validator.isNull(dto) || Validator.isNull(dto.getOrderId()) || Validator.isNull(dto.getFinalDocumentId()))
+            throw new DomainException(String.format(ErrorMessage.EMPTY_PARAMETER.getFarsiMessage(), "شناسه سفارش"), ErrorMessage.EMPTY_PARAMETER);
+        Order order = findById(dto.getOrderId());
+        order.setStatus(OrderStatus.COMPLETED);
+        order.setFinalDocumentId(dto.getFinalDocumentId());
+        order.setDeliveryDate(new Date());
+        orderRepository.save(order);
+        emailService.sendOrderDoneMailMessage(order.getUsername(), order.getType() + order.getId());
         return order;
     }
 }
