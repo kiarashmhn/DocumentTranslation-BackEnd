@@ -22,6 +22,8 @@ public class OrderDto extends BaseDto {
     private Long finalDocumentId;
     private Date fromDate;
     private List<OrderStatus> statuses;
+    private Long preBillAmount;
+    private Long preBillDelay;
 
     public OrderDto() {
     }
@@ -133,5 +135,21 @@ public class OrderDto extends BaseDto {
 
     public void setStatuses(List<OrderStatus> statuses) {
         this.statuses = statuses;
+    }
+
+    public Long getPreBillAmount() {
+        return preBillAmount;
+    }
+
+    public void setPreBillAmount(Long preBillAmount) {
+        this.preBillAmount = preBillAmount;
+    }
+
+    public Long getPreBillDelay() {
+        return preBillDelay;
+    }
+
+    public void setPreBillDelay(Long preBillDelay) {
+        this.preBillDelay = preBillDelay;
     }
 }

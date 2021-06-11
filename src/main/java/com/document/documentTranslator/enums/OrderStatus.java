@@ -15,7 +15,8 @@ public enum OrderStatus {
 	CANCELLED(6, "cancelled", "Annulé"),
 	WAITING_FOR_PAYMENT(2, "waitingForPayment", "En attente de paiement"),
 	PENDING(3, "pending", "En attente d'acceptation"),
-	COMPLETING(1, "completing", "En attente de l'achèvement")
+	COMPLETING(1, "completing", "En attente de l'achèvement"),
+	PRE_BILL(8, "preBill", "En attente d'émission de la devis")
 	;
 
 	private int id;

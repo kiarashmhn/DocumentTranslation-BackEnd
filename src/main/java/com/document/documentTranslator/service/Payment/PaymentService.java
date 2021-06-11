@@ -11,6 +11,7 @@ import com.document.documentTranslator.repository.Payment.PaymentRepository;
 import com.document.documentTranslator.service.Order.OrderService;
 import com.document.documentTranslator.service.User.UserService;
 import com.document.documentTranslator.util.DomainUtil;
+import com.document.documentTranslator.util.Validator;
 import com.stripe.exception.StripeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,10 @@ public class PaymentService {
         Order order = orderService.findById(dto.getOrderId());
         payment.setOrderId(order.getId());
         order.setPaid(Boolean.TRUE);
-        order.setStatus(OrderStatus.PENDING);
+        if (Validator.notNull(order.getAdminName()))
+            order.setStatus(OrderStatus.IN_PROGRESS);
+        else
+            order.setStatus(OrderStatus.PENDING);
         order.setLastModifiedDate(new Date());
         orderRepository.save(order);
 

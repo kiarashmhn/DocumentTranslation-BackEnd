@@ -28,6 +28,8 @@ public class Order extends AbstractEntity {
     private Boolean hasNewAdminMessage;
     private Boolean changeState;
     private Long finalDocumentId;
+    private Long preBillAmount;
+    private Long preBillDelay;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -62,6 +64,8 @@ public class Order extends AbstractEntity {
         map.put("hasNewAdminMessage", this.hasNewAdminMessage);
         map.put("changeState", this.changeState);
         map.put("finalDocumentId", this.finalDocumentId);
+        map.put("preBillAmount", this.preBillAmount);
+        map.put("preBillDelay", this.preBillDelay);
 
         return map;
     }
@@ -178,5 +182,21 @@ public class Order extends AbstractEntity {
 
     public void setFinalDocumentId(Long finalDocumentId) {
         this.finalDocumentId = finalDocumentId;
+    }
+
+    public Long getPreBillAmount() {
+        return preBillAmount;
+    }
+
+    public void setPreBillAmount(Long preBillAmount) {
+        this.preBillAmount = preBillAmount;
+    }
+
+    public Long getPreBillDelay() {
+        return preBillDelay;
+    }
+
+    public void setPreBillDelay(Long preBillDelay) {
+        this.preBillDelay = preBillDelay;
     }
 }

@@ -117,4 +117,12 @@ public class OrderController {
         return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.orderDone(dto),
                 true, null));
     }
+
+    @Authorize(type = Authorize.AAAType.ADMIN, injectUserName = false)
+    @PostMapping("/preBill")
+    public ResponseEntity<Response> createPreBill(@RequestBody OrderDto dto) throws DomainException {
+
+        return ResponseEntity.ok().body(new Response(ResponseMessages.SUCCESSFUL, orderService.createPreBill(dto),
+                true, null));
+    }
 }

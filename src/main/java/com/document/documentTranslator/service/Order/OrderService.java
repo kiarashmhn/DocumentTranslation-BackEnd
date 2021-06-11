@@ -62,10 +62,26 @@ public class OrderService {
             order.setStatus(OrderStatus.WAITING_FOR_PAYMENT);
         }
 
+        if (Validator.notNull(orderDto.getMode()) && orderDto.getMode().equals("PRE-SUBMIT")) {
+            order.setSubmitDate(new Date());
+            order.setStatus(OrderStatus.PRE_BILL);
+        }
+
         if (Validator.notNull(orderDto.getEnabled()))
             order.setEnable(orderDto.getEnabled());
 
         order.setLastModifiedDate(new Date());
+
+        orderRepository.save(order);
+        return order;
+    }
+
+    public Order createPreBill(OrderDto orderDto) throws DomainException {
+        orderDto.unAssignValidate();
+        Order order = findById(orderDto.getOrderId());
+        order.setPreBillAmount(orderDto.getPreBillAmount());
+        order.setPreBillDelay(orderDto.getPreBillDelay());
+        order.setStatus(OrderStatus.WAITING_FOR_PAYMENT);
 
         orderRepository.save(order);
         return order;
