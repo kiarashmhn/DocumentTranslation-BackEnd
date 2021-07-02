@@ -34,7 +34,7 @@ public class DocumentService {
 
         dto.setName(URLDecoder.decode(dto.getName(), "UTF-8"));
 
-        if (dto.getSize() > 10000000L)
+        if (dto.getSize() > 50000000L)
             throw new DomainException(ErrorMessage.FILE_SIZE_TOO_BIG);
 
         String path = getFilePath(String.valueOf(dto.getOrderId()), dto.getType(), dto.getName(), dto.getMessageId());
