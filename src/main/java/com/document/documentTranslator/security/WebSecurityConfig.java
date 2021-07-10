@@ -18,6 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/config/get").permitAll()
                 .anyRequest().authenticated();
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
     }
