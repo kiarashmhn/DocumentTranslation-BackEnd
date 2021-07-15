@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class DocumentService {
@@ -49,6 +50,25 @@ public class DocumentService {
         document.setOrderId(dto.getOrderId());
         document.setUsername(dto.getUsername());
         document.setMessageId(dto.getMessageId());
+
+        return documentRepository.save(document);
+    }
+
+    public Document createConfigDoc(MultipartFile file, DocumentDto dto) throws IOException, DomainException {
+
+        if (dto.getSize() > 50000000L)
+            throw new DomainException(ErrorMessage.FILE_SIZE_TOO_BIG);
+        dto.setName(URLDecoder.decode(dto.getName(), "UTF-8"));
+        String path = String.format("%s/files/config/%d/%s", System.getProperty("user.dir"), new Random().nextInt(10000), dto.getName());
+        InputStream fileStream = new BufferedInputStream(file.getInputStream());
+        createFile(fileStream, path, dto.getSize().intValue());
+        Document document = new Document();
+
+        document.setName(dto.getName());
+        document.setType(dto.getType());
+        document.setSize(dto.getSize());
+        document.setPath(path);
+        document.setUseCase(dto.getUseCase());
 
         return documentRepository.save(document);
     }

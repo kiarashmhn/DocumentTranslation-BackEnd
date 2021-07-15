@@ -11,6 +11,8 @@ public class ConfigDto extends BaseDto {
     private String accNumber;
     private String address;
     private Map<String, Object> questions;
+    private Long ribId;
+    private String ribName;
 
     public boolean validate() {
         return Validator.notNull(accName) &&
@@ -58,5 +60,21 @@ public class ConfigDto extends BaseDto {
 
     public void setQuestions(Map<String, Object> questions) {
         this.questions = questions;
+    }
+
+    public Long getRibId() {
+        return ribId;
+    }
+
+    public void setRibId(Long ribId) {
+        this.ribId = ribId;
+    }
+
+    public String getRibName() {
+        return ribName;
+    }
+
+    public void setRibName(String ribName) {
+        this.ribName = ribName;
     }
 }

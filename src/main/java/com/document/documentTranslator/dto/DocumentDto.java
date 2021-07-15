@@ -15,6 +15,7 @@ public class DocumentDto extends BaseDto {
     private Long orderId;
     private Long messageId;
     private String type;
+    private String useCase;
 
     public static DocumentDto fromMap(Map<String, Object> map) throws DomainException {
         if (Validator.isNull(map))
@@ -27,6 +28,7 @@ public class DocumentDto extends BaseDto {
         documentDto.setType(DomainUtil.objectToString(map.get("type")));
         documentDto.setSize(DomainUtil.objectToLong(map.get("size")));
         documentDto.setMessageId(DomainUtil.objectToLong(map.get("messageId")));
+        documentDto.setUseCase(DomainUtil.objectToString(map.get("useCase")));
 
         return documentDto;
     }
@@ -85,5 +87,13 @@ public class DocumentDto extends BaseDto {
 
     public void setMessageId(Long messageId) {
         this.messageId = messageId;
+    }
+
+    public String getUseCase() {
+        return useCase;
+    }
+
+    public void setUseCase(String useCase) {
+        this.useCase = useCase;
     }
 }

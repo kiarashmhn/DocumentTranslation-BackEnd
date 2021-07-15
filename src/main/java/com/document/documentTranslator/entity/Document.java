@@ -19,6 +19,7 @@ public class Document extends AbstractEntity {
     private String username;
     private String path;
     private Long size;
+    private String useCase;
 
     public Document() {}
 
@@ -96,6 +97,7 @@ public class Document extends AbstractEntity {
         map.put("username", this.getUsername());
         map.put("path", this.getPath());
         map.put("size", this.getSize());
+        map.put("useCase", this.getUseCase());
 
         return map;
     }
@@ -106,6 +108,14 @@ public class Document extends AbstractEntity {
 
     public void setMessageId(Long messageId) {
         this.messageId = messageId;
+    }
+
+    public String getUseCase() {
+        return useCase;
+    }
+
+    public void setUseCase(String usage) {
+        this.useCase = usage;
     }
 }
 

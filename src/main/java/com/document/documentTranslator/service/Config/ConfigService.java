@@ -27,6 +27,8 @@ public class ConfigService {
         config.setAccLastName(configDto.getAccLastName());
         config.setAccNumber(configDto.getAccNumber());
         config.setAddress(configDto.getAddress());
+        config.setRibId(configDto.getRibId());
+        config.setRibName(configDto.getRibName());
         config.setQuestions(DomainUtil.mapToString((HashMap<String, Object>) configDto.getQuestions()));
 
         List<Config> configs = configRepository.findAll();

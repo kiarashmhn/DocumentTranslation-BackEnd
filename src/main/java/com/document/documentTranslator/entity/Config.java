@@ -15,6 +15,8 @@ public class Config extends AbstractEntity {
     private String accNumber;
     private String address;
     private String questions;
+    private Long ribId;
+    private String ribName;
 
     @Override
     public Map<String, Object> map() {
@@ -24,6 +26,8 @@ public class Config extends AbstractEntity {
         map.put("accNumber", this.accNumber);
         map.put("address", this.address);
         map.put("questions", DomainUtil.stringToJson(this.questions));
+        map.put("ribId", this.ribId);
+        map.put("ribName", this.ribName);
 
         return map;
     }
@@ -66,5 +70,21 @@ public class Config extends AbstractEntity {
 
     public void setQuestions(String questions) {
         this.questions = questions;
+    }
+
+    public Long getRibId() {
+        return ribId;
+    }
+
+    public void setRibId(Long ribId) {
+        this.ribId = ribId;
+    }
+
+    public String getRibName() {
+        return ribName;
+    }
+
+    public void setRibName(String ribName) {
+        this.ribName = ribName;
     }
 }
